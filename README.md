@@ -56,7 +56,8 @@ Siehe **[START-HIER.md](START-HIER.md)** – mit Claude Code sind es im Kern zwe
 - [ ] Phase 5: Testlauf mit 3 Personen
 - [ ] Phase 6: Rollout im Team
 
-**Live:** https://poamoa.github.io/dienstplan/ · Anmeldung `ENTFERNT`
+**Live:** https://poamoa.github.io/dienstplan/ · Team-Passwort **nicht** im Repo,
+siehe Passwortmanager (dieses Repo ist öffentlich).
 
 ## Kontakt / Verantwortung
 

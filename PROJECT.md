@@ -26,7 +26,7 @@ Dienste sieht und sich selbst einträgt.
 
 ## Aktueller Stand
 **Live und benutzbar:** https://poamoa.github.io/dienstplan/
-Anmeldung mit Team-Passwort `ENTFERNT`.
+Team-Passwort nicht hier notieren (Repo ist öffentlich) – im Passwortmanager.
 
 Erledigt am 2026-07-20 (Phasen 0–3):
 - App gebaut (`index.html`, `app.css`, `app.js`), Optik schlank/Apple.

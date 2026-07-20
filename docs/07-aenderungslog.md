@@ -24,7 +24,7 @@ Format:
   - Neuer Supabase-Schlüsseltyp: `config.js` enthält den `sb_publishable_…`-Key
     (ersetzt den alten anon key). Team-Konto über den `sb_secret_…`-Key angelegt
     (ersetzt service_role), Schlüssel wurde nicht gespeichert.
-  - Team-Konto `team@gemeinde.de`, Passwort **ENTFERNT**.
+  - Team-Konto `team@gemeinde.de`; Passwort im Passwortmanager (nicht im Repo).
   - Öffentliches Repo `poamoa/dienstplan`, GitHub Pages aktiv:
     **https://poamoa.github.io/dienstplan/**
   - Zwei App-Bugfixes committet: leere Fehlerleiste (`.fehler[hidden]`) und
