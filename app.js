@@ -43,6 +43,26 @@ let meinePraeferenzen = [];
 
 const $ = (id) => document.getElementById(id);
 
+/** localStorage kann werfen (blockierte Cookies, abgeschottete Umgebungen).
+ *  Ohne Absicherung bliebe die Seite dann komplett weiß. Fällt auf einen
+ *  Speicher im Arbeitsspeicher zurück – dann muss man die Person eben bei
+ *  jedem Start neu wählen, statt gar nichts zu sehen. */
+const ersatzSpeicher = {};
+const speicher = {
+  lesen(schluessel) {
+    try { return window.localStorage.getItem(schluessel); }
+    catch { return ersatzSpeicher[schluessel] ?? null; }
+  },
+  schreiben(schluessel, wert) {
+    try { window.localStorage.setItem(schluessel, wert); }
+    catch { ersatzSpeicher[schluessel] = wert; }
+  },
+  loeschen(schluessel) {
+    try { window.localStorage.removeItem(schluessel); }
+    catch { delete ersatzSpeicher[schluessel]; }
+  },
+};
+
 /** Element bauen. Text wird immer als textContent gesetzt, nie als HTML –
  *  Namen aus der Datenbank dürfen niemals als Markup interpretiert werden. */
 function e(tag, attrs = {}, kinder = []) {
@@ -156,7 +176,7 @@ async function anmelden(ereignis) {
 
 async function abmelden() {
   await sb.auth.signOut();
-  localStorage.removeItem(SPEICHER_PERSON);
+  speicher.loeschen(SPEICHER_PERSON);
   personId = null;
   ich = null;
   ansichtZeigen("anmeldung");
@@ -167,12 +187,12 @@ async function nachAnmeldung() {
   await kerndatenLaden();
   if (!personen.length) return;   // Fehler wurde bereits gemeldet
 
-  personId = localStorage.getItem(SPEICHER_PERSON);
+  personId = speicher.lesen(SPEICHER_PERSON);
   ich = personId ? personVon(personId) : null;
 
   if (!ich) {
     // Gespeicherte Person gibt es nicht mehr oder ist inaktiv -> neu wählen
-    localStorage.removeItem(SPEICHER_PERSON);
+    speicher.loeschen(SPEICHER_PERSON);
     personId = null;
     personenauswahlZeigen();
     return;
@@ -192,7 +212,7 @@ function personenauswahlZeigen() {
           onclick: () => {
             personId = p.id;
             ich = p;
-            localStorage.setItem(SPEICHER_PERSON, p.id);
+            speicher.schreiben(SPEICHER_PERSON, p.id);
             appZeigen();
           },
         }),
@@ -974,7 +994,7 @@ function ereignisseVerdrahten() {
   $("knopf-abmelden-person").addEventListener("click", abmelden);
   $("knopf-praeferenzen").addEventListener("click", overlayOeffnen);
   $("knopf-wechseln").addEventListener("click", () => {
-    localStorage.removeItem(SPEICHER_PERSON);
+    speicher.loeschen(SPEICHER_PERSON);
     personId = null;
     ich = null;
     personenauswahlZeigen();
