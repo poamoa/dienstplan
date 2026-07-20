@@ -2,13 +2,12 @@
 //
 // Diese Datei wird von /setup bzw. scripts/setup.sh erzeugt und dabei komplett
 // überschrieben. Nichts anderes hier hineinschreiben, es geht sonst verloren.
-// Beide Werte stehen im Supabase-Dashboard unter Settings -> API.
 //
-// WICHTIG: Hier gehört NUR der "anon public key" hinein. Der "service_role key"
-// hebelt jeden Schutz aus und darf niemals in dieser Datei oder im Repo landen.
-// Der anon key darf öffentlich sein - dafür ist er gemacht, RLS sperrt Anonyme aus.
+// Hier steht NUR der öffentliche "publishable"-Schlüssel (früher: anon key).
+// Der darf öffentlich sein – dafür ist er gemacht, RLS sperrt Anonyme aus.
+// Der "secret"-Schlüssel (früher: service_role) gehört NIEMALS hierher.
 
 window.CONFIG = {
-  SUPABASE_URL: "",
-  SUPABASE_ANON_KEY: "",
+  SUPABASE_URL: "https://kztbppgwgptyeqnxnoab.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_Q3XjbwB0IYGHouM9RCSQQw_5MoqC69t",
 };
