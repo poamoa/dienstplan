@@ -15,6 +15,40 @@ Format:
 
 ---
 
+## 2026-07-20 – Live gegangen: Supabase eingerichtet, auf GitHub Pages online (Phasen 1 + 3)
+
+- **Wer:** Joel, mit Claude
+- **Was:**
+  - Supabase-Projekt `kztbppgwgptyeqnxnoab` (Frankfurt). Schema, Seed (7 Bereiche,
+    3 Testpersonen, 52 Sonntage) und RLS eingespielt. Kontrolle: 0 Tabellen ohne RLS.
+  - Neuer Supabase-Schlüsseltyp: `config.js` enthält den `sb_publishable_…`-Key
+    (ersetzt den alten anon key). Team-Konto über den `sb_secret_…`-Key angelegt
+    (ersetzt service_role), Schlüssel wurde nicht gespeichert.
+  - Team-Konto `team@gemeinde.de`, Passwort **ENTFERNT**.
+  - Öffentliches Repo `poamoa/dienstplan`, GitHub Pages aktiv:
+    **https://poamoa.github.io/dienstplan/**
+  - Zwei App-Bugfixes committet: leere Fehlerleiste (`.fehler[hidden]`) und
+    `localStorage`-Absicherung.
+- **Warum:** Joel wollte direkt die echte Seite hosten statt einer Vorschau.
+  Hosting auf GitHub Pages war ohnehin als Phase 3 geplant.
+- **Getestet (gegen die echte Datenbank, per API):**
+  - Ohne Anmeldung Personen lesen → `[]`, nichts sichtbar (Kriterium 2).
+  - Login mit Team-Passwort → Token (Kriterium 1). Altes Passwort abgelehnt.
+  - Kernregel (Kriterium 4) gegen `v_besetzung`: Kinderdienst 2 Personen ohne
+    Leiter → rot; mit Leiter → gelb. Testdaten danach entfernt.
+  - Pages liefert index.html/app.css/app.js/config.js alle mit HTTP 200.
+- **Noch offen / bewusst zurückgestellt:**
+  - **Phase 4 (Backup + Keep-Alive):** Beide Workflows sind **deaktiviert**,
+    damit sie ohne Secrets keine Fehlermails erzeugen. Vor Rollout (Phase 6):
+    GitHub-Secrets `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_DB_URL` setzen
+    und `gh workflow enable backup.yml keepalive.yml`.
+  - Sichtprüfung im Browser (Kriterien 3, 5, 6, 7) steht noch aus – nur Joel kann
+    klicken.
+  - In Supabase: `Confirm email` sollte für das Team-Konto irrelevant sein (per
+    Admin-API mit `email_confirm` angelegt); bei Login-Problemen dort prüfen.
+
+---
+
 ## 2026-07-20 – App gebaut (Phase 2), Gestaltung auf schlank/Apple umgestellt
 
 - **Wer:** Joel, mit Claude

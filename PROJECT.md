@@ -25,31 +25,34 @@ Dienste sieht und sich selbst einträgt.
   "Bewusst nie"). Diese Frage kostet ein Gespräch, nicht eine Stunde Code.
 
 ## Aktueller Stand
-Phase 0 abgeschlossen. Am 2026-07-20 aus ZIP nach `~/projekte/dienstplan/`
-gelegt, Git-Repo initialisiert, zwei Commits.
+**Live und benutzbar:** https://poamoa.github.io/dienstplan/
+Anmeldung mit Team-Passwort `ENTFERNT`.
 
-**App gebaut, aber ungetestet.** `index.html`, `app.css`, `app.js` sind fertig
-nach `docs/08`, alle vier Reiter inklusive Admin-Einteilung und Präferenz-
-Overlay. Gestaltung auf Joels Wunsch schlank/Apple umgestellt, Vorgabe in
-`docs/08` entsprechend nachgezogen.
+Erledigt am 2026-07-20 (Phasen 0–3):
+- App gebaut (`index.html`, `app.css`, `app.js`), Optik schlank/Apple.
+- Supabase `kztbppgwgptyeqnxnoab` (Frankfurt): Schema, Seed, RLS. 0 Tabellen
+  ohne RLS. Neuer Schlüsseltyp (`sb_publishable_` in config.js, `sb_secret_`
+  nur transient fürs Team-Konto).
+- Öffentliches Repo `poamoa/dienstplan`, GitHub Pages aktiv.
+- Gegen echte DB per API geprüft: Kriterium 1 (Login), 2 (ohne Login keine
+  Daten), 4 (Kinderdienst ohne Leiter → rot, mit → gelb). Details im
+  Änderungslog.
 
-Was noch fehlt und den Fortschritt begrenzt:
-- **Kein Supabase-Projekt.** `config.js` ist eine leere Vorlage, die App zeigt
-  ohne sie einen Hinweis statt der Anmeldung.
-- **Kein Kriterium gegen echte Daten geprüft.** Belegt sind nur Nr. 6 (360 px)
-  und Nr. 4 gegen eine nachgebaute Ampel-Logik in einer Vorschau mit erfundenen
-  Daten. Die Anmeldung (Nr. 1), der RLS-Test ohne Anmeldung (Nr. 2) und die
-  Dropdown-Sortierung (Nr. 5) sind komplett ungeprüft.
+Offen:
+- **Sichtprüfung im Browser** (Kriterien 3, 5, 6, 7) – nur Joel kann klicken.
+- **Phase 4 (Backup/Keep-Alive):** Workflows bewusst **deaktiviert**, damit sie
+  ohne Secrets keine Fehlermails senden. Vor Rollout: Secrets setzen und
+  `gh workflow enable backup.yml keepalive.yml`. Ohne Backup kein echter
+  Team-Rollout.
+- **Vertretung** für GitHub/Supabase weiterhin nicht benannt.
 
-Vorbereitet ist: `gh` hat jetzt den `workflow`-Scope (sonst scheitert der Push
-der Workflow-Dateien), `psql` liegt unter `/opt/homebrew/opt/libpq/bin/psql`
-(keg-only, nicht im PATH).
+Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
+`workflow`-Scope.
 
 ## Nächster konkreter Schritt
-Supabase-Projekt im Browser anlegen (Frankfurt, Name `dienstplan-gemeinde`) und
-Project URL, anon key und Session-Pooler-URL bereitlegen. Danach läuft `/setup`
-in einem Rutsch durch; direkt anschließend die sieben Abnahmekriterien echt
-durchklicken.
+Joel klickt die Live-Seite auf dem Handy durch (anmelden → Anna M. → alle vier
+Reiter). Gefundene Punkte hier melden. Danach: Phase 4 (Backup) aktivieren,
+bevor echte Namen rein.
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
@@ -66,6 +69,9 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-07-20 – Live gegangen: Supabase eingerichtet (Schema/Seed/RLS),
+  Team-Konto, öffentliches Repo + GitHub Pages. Kernregel und Login gegen echte
+  DB geprüft. Workflows (Backup/Keep-Alive) deaktiviert bis Secrets gesetzt.
 - 2026-07-20 – App gebaut (`index.html`, `app.css`, `app.js`), Gestaltung auf
   schlank/Apple umgestellt und `docs/08` nachgezogen. Ungetestet gegen echte
   Daten – bewusst vorgezogen, weil Supabase auf später verschoben wurde.
