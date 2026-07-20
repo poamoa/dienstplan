@@ -357,18 +357,23 @@ button[disabled] { opacity: .4; cursor: default; }
   padding: 1rem 0 .85rem;
   background: var(--bg);
 }
+/* Gefüllter grüner Kreis mit Haken: liest sich als "Fertig / bestätigt",
+   nicht als Verwerfen. Die Änderungen sind ohnehin schon gespeichert. */
 .overlay-karte header button {
   flex: none;
-  width: 1.9rem;
-  height: 1.9rem;
+  width: 2rem;
+  height: 2rem;
   border: 0;
   border-radius: 999px;
-  background: rgba(120, 120, 128, .12);
-  color: var(--leise);
-  font-size: 1.1rem;
+  background: var(--gruen);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
   line-height: 1;
   padding: 0;
+  transition: opacity .15s ease;
 }
+.overlay-karte header button:active { opacity: .7; }
 .overlay-karte .hinweis { margin: 0 0 1.25rem; font-size: .9rem; }
 
 /* Präferenzen -------------------------------------------------------- */

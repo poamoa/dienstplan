@@ -13,6 +13,17 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-07-20 – Overlay-Schließknopf: grüner Haken statt grauem ×
+
+- **Wer:** Joel, mit Claude
+- **Was:** In `index.html`/`app.css` den Schließknopf oben rechts in den Overlays
+  (Präferenzen, Admin-Termindetail) von grauem × auf gefüllten grünen Kreis mit
+  weißem Haken (✓) geändert, aria-label auf „Fertig – Änderungen sind gespeichert".
+- **Warum:** Das × fühlte sich nach Verwerfen an. Die Änderungen werden aber
+  ohnehin sofort gespeichert; der Haken kommuniziert Bestätigung statt Abbruch.
+- **Folgen:** Betrifft beide Overlays (gemeinsamer Knopf `#overlay-zu`). Die
+  Fehlerleiste behält bewusst ihr × (echtes Verwerfen).
+
 ---
 
 ## 2026-07-20 – Live gegangen: Supabase eingerichtet, auf GitHub Pages online (Phasen 1 + 3)
