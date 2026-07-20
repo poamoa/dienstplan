@@ -25,18 +25,31 @@ Dienste sieht und sich selbst einträgt.
   "Bewusst nie"). Diese Frage kostet ein Gespräch, nicht eine Stunde Code.
 
 ## Aktueller Stand
-Phase 0 abgeschlossen: Architektur entschieden, Doku 00–08 vollständig,
-SQL-Skripte (Schema, Seed, RLS), Setup-Skript, GitHub-Workflows (Backup,
-Keep-Alive) und fünf Projekt-Skills liegen vor.
-**Die App selbst existiert noch nicht** – `index.html`, `app.css`, `app.js`,
-`config.js` fehlen. Kein Supabase-Projekt, nichts online.
+Phase 0 abgeschlossen. Am 2026-07-20 aus ZIP nach `~/projekte/dienstplan/`
+gelegt, Git-Repo initialisiert, zwei Commits.
 
-Am 2026-07-20 aus ZIP nach `~/projekte/dienstplan/` gelegt und als Git-Repo
-initialisiert.
+**App gebaut, aber ungetestet.** `index.html`, `app.css`, `app.js` sind fertig
+nach `docs/08`, alle vier Reiter inklusive Admin-Einteilung und Präferenz-
+Overlay. Gestaltung auf Joels Wunsch schlank/Apple umgestellt, Vorgabe in
+`docs/08` entsprechend nachgezogen.
+
+Was noch fehlt und den Fortschritt begrenzt:
+- **Kein Supabase-Projekt.** `config.js` ist eine leere Vorlage, die App zeigt
+  ohne sie einen Hinweis statt der Anmeldung.
+- **Kein Kriterium gegen echte Daten geprüft.** Belegt sind nur Nr. 6 (360 px)
+  und Nr. 4 gegen eine nachgebaute Ampel-Logik in einer Vorschau mit erfundenen
+  Daten. Die Anmeldung (Nr. 1), der RLS-Test ohne Anmeldung (Nr. 2) und die
+  Dropdown-Sortierung (Nr. 5) sind komplett ungeprüft.
+
+Vorbereitet ist: `gh` hat jetzt den `workflow`-Scope (sonst scheitert der Push
+der Workflow-Dateien), `psql` liegt unter `/opt/homebrew/opt/libpq/bin/psql`
+(keg-only, nicht im PATH).
 
 ## Nächster konkreter Schritt
-`/setup` im Projektordner ausführen (Phase 1). Braucht ~5 Min Browser-Login bei
-Supabase; den Rest macht der Skill. Danach erst `/app-bauen`.
+Supabase-Projekt im Browser anlegen (Frankfurt, Name `dienstplan-gemeinde`) und
+Project URL, anon key und Session-Pooler-URL bereitlegen. Danach läuft `/setup`
+in einem Rutsch durch; direkt anschließend die sieben Abnahmekriterien echt
+durchklicken.
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
@@ -53,6 +66,10 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-07-20 – App gebaut (`index.html`, `app.css`, `app.js`), Gestaltung auf
+  schlank/Apple umgestellt und `docs/08` nachgezogen. Ungetestet gegen echte
+  Daten – bewusst vorgezogen, weil Supabase auf später verschoben wurde.
+  `gh`-Scope `workflow` ergänzt, `libpq` installiert.
 - 2026-07-20 – Projekt aus ZIP übernommen, `~/projekte/dienstplan/` angelegt,
   PROJECT.md ergänzt, Git-Repo initialisiert. Intake nachgeholt: GO als
   Eigenbedarfsprojekt.
