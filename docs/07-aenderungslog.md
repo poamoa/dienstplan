@@ -13,6 +13,35 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-07-20 – Termin-Plan 2026/27, Sondertermine, editierbare Termine, versteckter Admin
+
+- **Wer:** Joel, mit Claude
+- **Was:**
+  - `sql/04_termine_2026_27.sql`: Spalte `termine.braucht_dienste` (Info-Termine
+    ohne Ampel), `v_besetzung` filtert diese aus. Plan Sep 2026–Jul 2027
+    generiert: 1./3. Sonntag je Monat (19 reguläre Treffen), Winterpause ab
+    1. Advent (29.11.2026) bis Neustart 17.1.2027, Sommerpausenabschluss als
+    letzter Termin (25.7.2027). 13 Sondertermine (Lobpreisabende ~2-monatlich,
+    Leitertreffen ~3-monatlich, Weihnachtsfeier 12.12., Fasten-/Gebetswoche
+    25.1.). Alte Seed-Sonntage entfernt (inkl. 2 Test-Termine vor Plan-Beginn).
+  - App: Sondertermine erscheinen als schlanke Info-Karte (Plan + Verwaltung),
+    nicht im „Eintragen". Admin kann Termine **bearbeiten** (Datum/Titel/Info-Flag)
+    und beim Anlegen als „nur Info" markieren.
+  - **Versteckter Admin-Zugang:** 5× auf den eigenen Namen in der Fußzeile tippen
+    schaltet den Verwaltung-Reiter pro Gerät frei (`localStorage`), Knopf zum
+    Verbergen. `ist_admin` steuert die Sichtbarkeit nicht mehr.
+- **Warum:** Wunsch von Joel – realer Jahresplan statt wöchentlicher Seed-Sonntage,
+  Sondertermine ohne unsinnige Dienst-Ampel, Datum nachträglich korrigierbar,
+  Admin nicht für jeden sichtbar.
+- **Getestet:** SQL gegen echte DB (19 regulär / 13 Info, `v_besetzung` ohne
+  Info-Termine, erster Sonntag liefert 7 Bereiche). App-Renderpfade im
+  JS-Harness (Login → Admin → alle Reiter inkl. Info-Karte und Bearbeiten-Modus)
+  fehlerfrei. **Noch offen:** Sichtprüfung im Browser durch Joel.
+- **Annahmen (editierbar):** Rhythmus = 1./3. Sonntag; falls euer Takt versetzt
+  ist, per „Bearbeiten" verschieben. Sondertermin-Daten sind Platzhalter.
+
+---
+
 ## 2026-07-20 – Overlay-Schließknopf: grüner Haken statt grauem ×
 
 - **Wer:** Joel, mit Claude

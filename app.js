@@ -24,6 +24,11 @@ const TERMINE_ANSICHT = 8;   // Reiter "Eintragen" und "Plan"
 const TERMINE_ADMIN = 12;    // Reiter "Verwaltung"
 
 const SPEICHER_PERSON = "dienstplan_person_id";
+// Der Adminbereich ist absichtlich versteckt: er wird pro Gerät durch eine
+// Geste (5× auf den eigenen Namen tippen) freigeschaltet, nicht durch die Wahl
+// einer Person. Das ist – wie in sql/03_rls.sql dokumentiert – nur eine
+// Sicht-Sperre gegen versehentlichen Zugriff, kein echter Schutz.
+const SPEICHER_ADMIN = "dienstplan_admin";
 
 const STATUS_TEXT = { rot: "unterbesetzt", gelb: "knapp", gruen: "besetzt" };
 
@@ -32,6 +37,7 @@ let personId = null;         // gewählte Person (localStorage)
 let ich = null;              // Datensatz dieser Person
 let aktiverTab = "meine";
 let aktiverUnterTab = "ampel";
+let editTerminId = null;        // welcher Termin gerade im Bearbeiten-Modus ist
 
 // Daten, bei jedem Laden frisch
 let bereiche = [];
@@ -62,6 +68,9 @@ const speicher = {
     catch { delete ersatzSpeicher[schluessel]; }
   },
 };
+
+/** Ist der Adminbereich auf diesem Gerät freigeschaltet? */
+function adminFrei() { return speicher.lesen(SPEICHER_ADMIN) === "1"; }
 
 /** Element bauen. Text wird immer als textContent gesetzt, nie als HTML –
  *  Namen aus der Datenbank dürfen niemals als Markup interpretiert werden. */
@@ -136,6 +145,10 @@ const bereichVon = (id) => bereiche.find((b) => b.id === id);
 const personVon = (id) => personen.find((p) => p.id === id);
 const terminVon = (id) => termine.find((t) => t.id === id);
 const besetzungVon = (terminId, bereichId) => besetzung.get(`${terminId}|${bereichId}`);
+
+// Sondertermine (Lobpreisabend, Leitertreffen, …): nur Info, kein Dienstplan,
+// keine Ampel. Erkennbar an braucht_dienste = false.
+const istInfoTermin = (t) => t.braucht_dienste === false;
 
 // ------------------------------------------------------- 2. Anmeldung
 
@@ -224,8 +237,8 @@ function personenauswahlZeigen() {
 
 function appZeigen() {
   $("fuss-name").textContent = ich.name;
-  $("reiter-verwaltung").hidden = !ich.ist_admin;
-  if (aktiverTab === "verwaltung" && !ich.ist_admin) aktiverTab = "meine";
+  $("reiter-verwaltung").hidden = !adminFrei();
+  if (aktiverTab === "verwaltung" && !adminFrei()) aktiverTab = "meine";
   ansichtZeigen("app");
   tabZeigen(aktiverTab);
 }
@@ -289,6 +302,8 @@ async function praeferenzenLaden() {
 // -------------------------------------------------------- 4. Die Reiter
 
 function tabZeigen(name) {
+  // Verwaltung nur, wenn freigeschaltet – sonst zurück auf "Meine Dienste".
+  if (name === "verwaltung" && !adminFrei()) name = "meine";
   aktiverTab = name;
   for (const t of ["meine", "eintragen", "plan", "verwaltung"]) {
     $(`tab-${t}`).hidden = t !== name;
@@ -415,7 +430,14 @@ async function tabEintragen() {
 
   const meineBereiche = bereiche.filter((b) => meinePraeferenzen.some((p) => p.bereich_id === b.id));
 
-  for (const t of termine) {
+  // Sondertermine haben keine Dienste – hier nicht anzeigen.
+  const eintragbar = termine.filter((t) => !istInfoTermin(t));
+  if (!eintragbar.length) {
+    ziel.appendChild(e("p", { class: "leer", text: "In nächster Zeit stehen keine Termine zum Eintragen an." }));
+    return;
+  }
+
+  for (const t of eintragbar) {
     const karte = e("div", { class: "karte" }, [
       e("div", { class: "karte-kopf" }, [
         e("span", { class: "datum", text: datumKurz(t.datum) }),
@@ -499,8 +521,24 @@ async function tabPlan() {
   }
 
   for (const t of termine) {
-    ziel.appendChild(planKarte(t, bereiche, false));
+    ziel.appendChild(istInfoTermin(t) ? infoKarte(t) : planKarte(t, bereiche, false));
   }
+}
+
+/** Karte für einen Sondertermin: nur Datum, Titel, optional Notiz. Keine Ampel. */
+function infoKarte(t) {
+  return e("div", { class: "karte karte-info" }, [
+    e("div", { class: "karte-kopf" }, [
+      e("span", { class: "datum", text: datumKurz(t.datum) }),
+      e("span", { class: "abzeichen", text: "Sondertermin" }),
+    ]),
+    e("div", { class: "zeile" }, [
+      e("div", { class: "wachsen" }, [
+        e("div", { text: t.titel || "Sondertermin" }),
+        t.notiz ? e("div", { class: "namen", text: t.notiz }) : null,
+      ]),
+    ]),
+  ]);
 }
 
 /** Eine Terminkarte mit allen Bereichen. Wird von Plan und Verwaltung genutzt. */
@@ -581,13 +619,17 @@ async function adminAmpel() {
     return;
   }
 
-  const istRot = (t) => bereiche.some((b) => {
+  // Nur reguläre Termine haben eine Ampel; Sondertermine werden nie "rot".
+  const istRot = (t) => !istInfoTermin(t) && bereiche.some((b) => {
     const z = besetzungVon(t.id, b.id);
     return z && z.status === "rot";
   });
 
   const rote = termine.filter(istRot);
-  const rest = termine.filter((t) => !istRot(t));
+  const roteIds = new Set(rote.map((t) => t.id));
+  const rest = termine.filter((t) => !roteIds.has(t.id));   // chronologisch, inkl. Sondertermine
+
+  const zeichne = (t) => istInfoTermin(t) ? infoKarte(t) : planKarte(t, bereiche, true);
 
   if (rote.length) {
     ziel.appendChild(e("div", { class: "gruppe-titel warnung", text: "Braucht Aufmerksamkeit" }));
@@ -595,7 +637,7 @@ async function adminAmpel() {
   }
   if (rest.length) {
     ziel.appendChild(e("div", { class: "gruppe-titel", text: rote.length ? "Übrige Termine" : "Alle Termine" }));
-    for (const t of rest) ziel.appendChild(planKarte(t, bereiche, true));
+    for (const t of rest) ziel.appendChild(zeichne(t));
   }
 }
 
@@ -825,73 +867,133 @@ async function adminTermine() {
     .select("*")
     .gte("datum", heuteIso())
     .order("datum", { ascending: true })
-    .limit(TERMINE_ADMIN);
+    .limit(TERMINE_ADMIN * 3);   // hier alle kommenden zeigen, nicht nur wenige
   if (error) { melden("Termine konnten nicht geladen werden", error); return; }
 
   ziel.className = "";
   leeren(ziel);
 
+  // --- Neuen Termin anlegen ---
   const datum = e("input", { type: "date" });
   const titel = e("input", { type: "text", placeholder: "Titel, z. B. Taufgottesdienst" });
+  const nurInfo = e("input", { type: "checkbox" });
 
   ziel.appendChild(
     e("div", { class: "karte" }, [
-      e("h3", { text: "Sondertermin anlegen" }),
-      e("label", { for: "" }, ["Datum"]),
+      e("h3", { text: "Termin anlegen" }),
+      e("label", {}, ["Datum"]),
       datum,
-      e("label", {}, ["Titel"]),
+      e("label", {}, ["Titel (optional)"]),
       titel,
+      e("label", { class: "mit-box" }, [nurInfo, " nur Info, kein Dienstplan (z. B. Lobpreisabend)"]),
       e("button", {
         type: "button",
         class: "knopf",
         text: "Anlegen",
         onclick: async () => {
           if (!datum.value) { fehlerZeigen("Bitte ein Datum wählen."); return; }
-          const { error: f } = await sb
-            .from("termine")
-            .insert({ datum: datum.value, titel: titel.value.trim() || null });
-          if (f) {
-            melden(/duplicate|unique/i.test(f.message || "")
-              ? "Zu diesem Datum gibt es schon einen Termin"
-              : "Anlegen fehlgeschlagen", f);
-            return;
-          }
+          const { error: f } = await sb.from("termine").insert({
+            datum: datum.value,
+            titel: titel.value.trim() || null,
+            braucht_dienste: !nurInfo.checked,
+          });
+          if (f) { melden(terminFehler(f), f); return; }
           fehlerVerbergen();
-          datum.value = ""; titel.value = "";
+          datum.value = ""; titel.value = ""; nurInfo.checked = false;
           adminTermine();
         },
       }),
-      e("p", { class: "namen", text: "Die normalen Sonntage legt /neues-jahr an – hier nur Besonderes." }),
+      e("p", { class: "namen", text: "Reguläre Sonntage sind schon angelegt. Datum eines Termins änderst du unten über den Bearbeiten-Knopf." }),
     ])
   );
 
+  // --- Liste kommender Termine ---
   const liste = e("div", { class: "karte" }, [e("h3", { text: "Kommende Termine" })]);
   for (const t of data) {
-    liste.appendChild(
-      e("div", { class: "zeile" }, [
-        e("div", { class: "wachsen" }, [
-          e("div", {}, [
-            datumKurz(t.datum),
-            t.titel ? ` · ${t.titel}` : "",
-            t.abgesagt ? e("span", { class: "abzeichen", text: "abgesagt" }) : null,
-          ]),
-        ]),
+    liste.appendChild(t.id === editTerminId ? terminBearbeitenZeile(t) : terminAnzeigeZeile(t));
+  }
+  ziel.appendChild(liste);
+}
+
+/** Einheitliche Fehlermeldung beim Speichern eines Termins. */
+function terminFehler(f) {
+  return /duplicate|unique/i.test(f.message || "")
+    ? "Zu diesem Datum gibt es schon einen Termin"
+    : "Speichern fehlgeschlagen";
+}
+
+/** Anzeigezeile eines Termins mit Bearbeiten / Absagen. */
+function terminAnzeigeZeile(t) {
+  return e("div", { class: "zeile" }, [
+    e("div", { class: "wachsen" }, [
+      e("div", {}, [
+        e("strong", { text: datumKurz(t.datum) }),
+        t.titel ? ` · ${t.titel}` : "",
+        istInfoTermin(t) ? e("span", { class: "abzeichen", text: "Info" }) : null,
+        t.abgesagt ? e("span", { class: "abzeichen", text: "abgesagt" }) : null,
+      ]),
+    ]),
+    e("button", {
+      type: "button",
+      class: "knopf-klein",
+      text: "Bearbeiten",
+      onclick: () => { editTerminId = t.id; adminTermine(); },
+    }),
+    e("button", {
+      type: "button",
+      class: "knopf-klein",
+      text: t.abgesagt ? "Doch" : "Absagen",
+      onclick: async () => {
+        if (!t.abgesagt && !confirm("Termin wirklich absagen? Die Einteilungen bleiben erhalten.")) return;
+        const { error: f } = await sb.from("termine").update({ abgesagt: !t.abgesagt }).eq("id", t.id);
+        if (f) { melden("Ändern fehlgeschlagen", f); return; }
+        fehlerVerbergen();
+        adminTermine();
+      },
+    }),
+  ]);
+}
+
+/** Bearbeiten-Zeile: Datum, Titel und Info-Flag ändern. */
+function terminBearbeitenZeile(t) {
+  const datum = e("input", { type: "date", value: t.datum });
+  const titel = e("input", { type: "text", value: t.titel || "", placeholder: "Titel (optional)" });
+  const nurInfo = e("input", { type: "checkbox", checked: istInfoTermin(t) });
+
+  return e("div", { class: "zeile zeile-edit" }, [
+    e("div", { class: "wachsen" }, [
+      e("label", {}, ["Datum"]),
+      datum,
+      e("label", {}, ["Titel (optional)"]),
+      titel,
+      e("label", { class: "mit-box" }, [nurInfo, " nur Info, kein Dienstplan"]),
+      e("div", { class: "edit-knoepfe" }, [
         e("button", {
           type: "button",
-          class: "knopf-klein",
-          text: t.abgesagt ? "Doch stattfinden" : "Absagen",
+          class: "knopf-klein primaer",
+          text: "Speichern",
           onclick: async () => {
-            if (!t.abgesagt && !confirm("Termin wirklich absagen? Die Einteilungen bleiben erhalten.")) return;
-            const { error: f } = await sb.from("termine").update({ abgesagt: !t.abgesagt }).eq("id", t.id);
-            if (f) { melden("Ändern fehlgeschlagen", f); return; }
+            if (!datum.value) { fehlerZeigen("Bitte ein Datum wählen."); return; }
+            const { error: f } = await sb.from("termine").update({
+              datum: datum.value,
+              titel: titel.value.trim() || null,
+              braucht_dienste: !nurInfo.checked,
+            }).eq("id", t.id);
+            if (f) { melden(terminFehler(f), f); return; }
             fehlerVerbergen();
+            editTerminId = null;
             adminTermine();
           },
         }),
-      ])
-    );
-  }
-  ziel.appendChild(liste);
+        e("button", {
+          type: "button",
+          class: "knopf-klein",
+          text: "Abbrechen",
+          onclick: () => { editTerminId = null; adminTermine(); },
+        }),
+      ]),
+    ]),
+  ]);
 }
 
 // -------------------------------------------------- 5. Präferenz-Overlay
@@ -1006,9 +1108,38 @@ function ereignisseVerdrahten() {
   for (const knopf of document.querySelectorAll(".unterreiter button")) {
     knopf.addEventListener("click", () => {
       aktiverUnterTab = knopf.dataset.unter;
+      editTerminId = null;
       tabVerwaltung();
     });
   }
+
+  // Versteckter Admin-Zugang: 5× auf den eigenen Namen in der Fußzeile tippen.
+  adminGesteVerdrahten();
+  $("knopf-admin-sperren").addEventListener("click", () => {
+    speicher.loeschen(SPEICHER_ADMIN);
+    aktiverTab = "meine";
+    appZeigen();
+  });
+}
+
+/** 5 Tipser auf #fuss-name innerhalb von 3 Sekunden schalten den Adminbereich
+ *  auf diesem Gerät frei. Bewusst unauffällig – kein Knopf, kein Hinweis. */
+function adminGesteVerdrahten() {
+  let tipser = 0;
+  let letzterTip = 0;
+  $("fuss-name").addEventListener("click", () => {
+    const jetzt = Date.now();
+    tipser = jetzt - letzterTip < 3000 ? tipser + 1 : 1;
+    letzterTip = jetzt;
+    if (tipser >= 5) {
+      tipser = 0;
+      if (adminFrei()) return;            // schon frei, nichts tun
+      speicher.schreiben(SPEICHER_ADMIN, "1");
+      aktiverTab = "verwaltung";
+      appZeigen();
+      alert("Adminbereich freigeschaltet. Unten im Verwaltung-Reiter kannst du ihn wieder verbergen.");
+    }
+  });
 }
 
 async function start() {

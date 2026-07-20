@@ -313,6 +313,31 @@ button[disabled] { opacity: .4; cursor: default; }
 }
 #fusszeile .verweis { font-size: .8125rem; }
 
+/* Tap-Ziel für den versteckten Admin-Zugang – kein sichtbarer Hinweis,
+   nur kein Text-Markieren beim schnellen Tippen. */
+#fuss-name {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sondertermin-Karte: dezent abgesetzt, ohne Ampel */
+.karte-info { background: #fbfbfa; }
+.karte-info .abzeichen { background: rgba(120, 120, 128, .14); color: var(--leise); }
+
+/* Termin bearbeiten (Adminbereich) */
+.zeile-edit { display: block; }
+.zeile-edit label { margin-top: .6rem; }
+.zeile-edit label:first-child { margin-top: 0; }
+.edit-knoepfe { display: flex; gap: .6rem; margin-top: .9rem; }
+
+/* „Adminbereich verbergen" – unauffällig unter der Verwaltung */
+.admin-sperren {
+  display: block;
+  margin: 2rem auto 0;
+  color: var(--leise);
+}
+
 .leiste { margin: -.75rem 0 1.25rem; }
 
 .gruppe-titel {

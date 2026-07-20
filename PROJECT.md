@@ -50,9 +50,10 @@ Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
 `workflow`-Scope.
 
 ## Nächster konkreter Schritt
-Joel klickt die Live-Seite auf dem Handy durch (anmelden → Anna M. → alle vier
-Reiter). Gefundene Punkte hier melden. Danach: Phase 4 (Backup) aktivieren,
-bevor echte Namen rein.
+Joel klickt die Live-Seite auf dem Handy durch: anmelden → Plan prüfen (stimmen
+Termine/Rhythmus/Sondertermine?) → **5× auf den eigenen Namen unten tippen** für
+den Adminbereich → Termin bearbeiten testen. Gefundene Punkte hier melden.
+Danach: Phase 4 (Backup) aktivieren, bevor echte Namen rein.
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
@@ -69,6 +70,11 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-07-20 – Termin-Plan Sep 26–Jul 27 generiert (1./3. Sonntag, Winter-/
+  Sommerpause, 13 Sondertermine), Spalte `braucht_dienste` für Info-Termine,
+  Termine im Admin editierbar, versteckter Admin-Zugang (5× auf Namen tippen).
+  SQL + JS-Harness getestet, Browser-Sichtprüfung offen.
+- 2026-07-20 – Overlay-Schließknopf grüner Haken statt grauem ×.
 - 2026-07-20 – Live gegangen: Supabase eingerichtet (Schema/Seed/RLS),
   Team-Konto, öffentliches Repo + GitHub Pages. Kernregel und Login gegen echte
   DB geprüft. Workflows (Backup/Keep-Alive) deaktiviert bis Secrets gesetzt.

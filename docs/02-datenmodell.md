@@ -54,6 +54,7 @@ Eine Zeile bedeutet: "Diese Person ist grundsätzlich für diesen Bereich vorges
 | `titel` | text | leer bei normalem Gottesdienst, sonst z. B. "Taufgottesdienst" |
 | `notiz` | text | freier Hinweis für alle |
 | `abgesagt` | bool | statt löschen |
+| `braucht_dienste` | bool | `true` = normaler Termin mit Dienstplan/Ampel. `false` = reiner Info-/Sondertermin (Lobpreisabend, Leitertreffen, …): erscheint im Plan nur als Hinweis, taucht nicht in `v_besetzung` auf. Ergänzt in `sql/04`. |
 
 ## `einteilungen`
 

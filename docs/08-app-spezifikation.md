@@ -20,7 +20,13 @@ Verbindliche Vorgabe für `index.html`, `app.css`, `app.js`. `config.js` entsteh
 ## Navigation
 
 Drei Reiter unten (fixiert): **Meine Dienste** · **Eintragen** · **Plan**.
-Ist die gewählte Person Admin (`personen.ist_admin`), erscheint ein vierter Reiter **Verwaltung**.
+Der vierte Reiter **Verwaltung** ist versteckt: Er erscheint erst, wenn der
+Adminbereich auf diesem Gerät freigeschaltet wurde – **5× auf den eigenen Namen
+in der Fußzeile tippen** (innerhalb von 3 s). Der Zustand wird pro Gerät in
+`localStorage` (`dienstplan_admin`) gemerkt; ein Knopf unten in der Verwaltung
+verbirgt ihn wieder. Das ist bewusst nur eine Sicht-Sperre, kein echter Schutz
+(siehe `sql/03_rls.sql`); `personen.ist_admin` spielt für die Sichtbarkeit keine
+Rolle mehr.
 
 ## Reiter 1: Meine Dienste
 
@@ -39,6 +45,7 @@ Ist die gewählte Person Admin (`personen.ist_admin`), erscheint ein vierter Rei
 ## Reiter 3: Plan (für alle lesbar)
 
 - Nächste 8 Termine als Karten. Pro Karte alle 7 Bereiche in `sortierung`-Reihenfolge: Kürzel, Namen der Eingeteilten (Leiter mit ★), Status-Punkt.
+- **Info-/Sondertermine** (`braucht_dienste = false`, z. B. Lobpreisabend): schlanke Karte nur mit Datum, Titel und Abzeichen „Sondertermin", ohne Bereiche/Ampel. Im Reiter „Eintragen" tauchen sie nicht auf.
 - Reine Leseansicht.
 
 ## Reiter 4: Verwaltung (nur Admin)
@@ -47,7 +54,7 @@ Ist die gewählte Person Admin (`personen.ist_admin`), erscheint ein vierter Rei
 - Termin antippen → Detail: je Bereich die Eingeteilten mit Entfernen-Knopf und ein „+ Person"-Dropdown. Sortierung des Dropdowns: passende Präferenz mit `gewichtung=1`, dann `gewichtung=2`, dann – abgetrennt mit Hinweis „ohne Präferenz" – alle übrigen Aktiven. Bereits an diesem Termin (egal welcher Bereich) Eingeteilte werden markiert („bereits im Aufbau"). Insert mit `quelle='admin'`.
 - Bei `braucht_leiter`: Umschalter je Person „ist hier Leiter" (`als_leiter`).
 - **Personen:** Liste, Anlegen (nur Name + Admin-Häkchen), Aktiv-Schalter. Kein Löschen.
-- **Termine:** Sondertermin anlegen (Datum, Titel), Termin absagen (`abgesagt=true`).
+- **Termine:** Termin anlegen (Datum, Titel, Häkchen „nur Info, kein Dienstplan" → `braucht_dienste=false`). Jeden kommenden Termin **bearbeiten** (Datum, Titel und Info-Flag ändern) oder absagen (`abgesagt=true`). Doppeltes Datum wird abgefangen (unique).
 
 ## Ampel (überall gleich)
 
