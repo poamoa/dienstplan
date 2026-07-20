@@ -1,0 +1,49 @@
+name: Nächtliches Backup
+
+# Der kostenlose Supabase-Plan hat KEINE automatischen Backups.
+# Dieser Job zieht jede Nacht einen Datenbank-Export und legt ihn ins Repo.
+# Bei unserer Datenmenge sind das wenige Kilobyte pro Tag.
+# Benötigtes Secret: SUPABASE_DB_URL = Session-Pooler-Verbindung
+# (Supabase-Dashboard → Connect → Session pooler). Die direkte db.<ref>-Adresse
+# ist oft nur per IPv6 erreichbar und funktioniert hier NICHT zuverlässig.
+# Siehe docs/05-betrieb-wartung.md
+
+on:
+  schedule:
+    - cron: "30 2 * * *"    # täglich 2:30 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PostgreSQL-Client installieren
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client
+
+      - name: Export erstellen
+        run: |
+          mkdir -p backups
+          pg_dump "${{ secrets.SUPABASE_DB_URL }}" \
+            --schema=public \
+            --no-owner --no-privileges \
+            --file="backups/dienstplan-$(date +%F).sql"
+
+      - name: Alte Backups aufräumen (nur die letzten 30 behalten)
+        run: |
+          cd backups
+          ls -1t *.sql 2>/dev/null | tail -n +31 | xargs -r rm --
+
+      - name: Ins Repo einchecken
+        run: |
+          git config user.name  "backup-bot"
+          git config user.email "backup-bot@users.noreply.github.com"
+          git add backups/
+          git diff --staged --quiet || git commit -m "Backup $(date +%F)"
+          git push

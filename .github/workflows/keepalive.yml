@@ -1,0 +1,29 @@
+name: Supabase wachhalten
+
+# Supabase pausiert kostenlose Projekte nach 7 Tagen ohne Zugriff.
+# Dieser Job fragt alle 3 Tage eine Zeile ab. Das reicht als Lebenszeichen.
+# Siehe docs/05-betrieb-wartung.md
+
+on:
+  schedule:
+    - cron: "0 6 */3 * *"   # alle 3 Tage um 6:00 UTC
+  workflow_dispatch:         # ermöglicht manuelles Auslösen
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Datenbank anpingen
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/bereiche?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+          echo "HTTP-Status: $code"
+          # 200 = alles gut, 401 = RLS blockt anonym (auch gut, DB lebt)
+          if [ "$code" = "200" ] || [ "$code" = "401" ]; then
+            echo "Datenbank ist wach."
+          else
+            echo "Unerwartete Antwort – bitte Supabase-Dashboard prüfen."
+            exit 1
+          fi
