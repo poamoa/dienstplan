@@ -1,0 +1,408 @@
+/* app.css – Dienstplan Gemeinde
+ *
+ * Gestaltungsprinzip (siehe docs/08): ruhig, hell, viel Weißraum.
+ * Hierarchie entsteht durch Typografie und Abstand, nicht durch Rahmen,
+ * Schatten und Farbe. Farbe trägt nur dort Bedeutung, wo sie muss – Ampel
+ * und ein einziger Akzent.
+ *
+ * Mobile-first, Basisbreite 360 px, Schrift nie unter 16 px.
+ */
+
+:root {
+  --bg: #f2f2f7;             /* Systemgrau, wie hinter gruppierten Listen */
+  --karte: #ffffff;
+  --text: #1c1c1e;
+  --leise: #6e6e73;          /* Sekundärtext */
+  --leiser: #aeaeb2;         /* Platzhalter, Deko */
+  --linie: rgba(60, 60, 67, .13);   /* Haarlinie, nie volles Grau */
+  --akzent: #0a6cc4;
+  --akzent-weich: rgba(10, 108, 196, .1);
+
+  /* Ampel: an Apple angelehnt, aber abgedunkelt. Auf Weiß muss der Punkt
+     auch bei Sonnenlicht und mit Rotschwäche erkennbar bleiben – deshalb
+     steht überall zusätzlich die Textform daneben. */
+  --rot: #d1362b;
+  --gelb: #b57a00;
+  --gruen: #2f855a;
+
+  --radius: 14px;
+  --radius-klein: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;                     /* Abnahmekriterium 6 */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+  font-size: 17px;                        /* iOS-Grundgröße, klar über dem Minimum */
+  line-height: 1.47;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -.01em;
+}
+
+/* Große, eng laufende Titel – das ist der auffälligste Teil der Apple-Optik */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.15;
+  margin: .5rem 0 1.5rem;
+}
+h2 { font-size: 1.25rem; font-weight: 650; letter-spacing: -.02em; margin: 0; }
+h3 { font-size: 1.0625rem; font-weight: 600; letter-spacing: -.01em; margin: 0 0 .25rem; }
+
+button { font: inherit; cursor: pointer; letter-spacing: inherit; }
+
+/* Sichtbarer Fokus – Tastatur und Screenreader dürfen nicht schlechter
+   dastehen als der Daumen. */
+:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Fehlerleiste ------------------------------------------------------- */
+.fehler {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+  padding: .9rem 1.15rem;
+  background: var(--rot);
+  color: #fff;
+  font-size: .95rem;
+  box-shadow: 0 1px 12px rgba(0, 0, 0, .12);
+}
+.fehler span { flex: 1; }
+.fehler button {
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0;
+  opacity: .8;
+}
+
+/* Grundgerüst -------------------------------------------------------- */
+.ansicht[hidden], .tab[hidden] { display: none; }
+
+.mitte {
+  max-width: 24rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem;
+}
+
+main {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.15rem calc(6rem + env(safe-area-inset-bottom));
+}
+
+.hinweis { color: var(--leise); margin: -.75rem 0 1.75rem; }
+.lade    { color: var(--leiser); }
+.leer    { color: var(--leise); padding: 1rem 0; }
+
+/* Formulare ---------------------------------------------------------- */
+label {
+  display: block;
+  margin-bottom: .4rem;
+  font-size: .8125rem;
+  font-weight: 500;
+  color: var(--leise);
+}
+
+input[type=password],
+input[type=text],
+input[type=date],
+select {
+  width: 100%;
+  padding: .8rem .9rem;
+  border: 1px solid var(--linie);
+  border-radius: var(--radius-klein);
+  background: var(--karte);
+  font: inherit;
+  color: var(--text);
+  appearance: none;
+  transition: border-color .15s ease;
+}
+input:focus, select:focus { border-color: var(--akzent); outline: none; }
+input::placeholder { color: var(--leiser); }
+
+/* Gefüllter Knopf, volle Breite – die Hauptaktion einer Ansicht */
+button[type=submit],
+.knopf {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: .9rem;
+  border: 0;
+  border-radius: var(--radius-klein);
+  background: var(--akzent);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  transition: opacity .15s ease;
+}
+button[type=submit]:active, .knopf:active { opacity: .8; }
+button[disabled] { opacity: .4; cursor: default; }
+
+/* Kleiner Knopf: getönt statt umrandet – Rahmen wirken schwer */
+.knopf-klein {
+  flex: none;
+  padding: .5rem .9rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(120, 120, 128, .12);
+  color: var(--text);
+  font-size: .875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: opacity .15s ease;
+}
+.knopf-klein:active { opacity: .6; }
+.knopf-klein.primaer { background: var(--akzent-weich); color: var(--akzent); font-weight: 600; }
+
+.verweis {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--akzent);
+  font-weight: 500;
+}
+.verweis:active { opacity: .6; }
+
+/* Auswahlliste (Namen) – eine gruppierte Liste, nicht viele Kästchen ---- */
+.liste-auswahl {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  background: var(--karte);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.liste-auswahl li + li button { border-top: 1px solid var(--linie); }
+.liste-auswahl button {
+  width: 100%;
+  text-align: left;
+  padding: .95rem 1.1rem;
+  border: 0;
+  background: none;
+  color: var(--text);
+  transition: background .15s ease;
+}
+.liste-auswahl button:active { background: rgba(120, 120, 128, .1); }
+
+/* Karten – flach, Haarlinie statt Schatten ---------------------------- */
+.karte {
+  background: var(--karte);
+  border-radius: var(--radius);
+  padding: .35rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.karte > h3 { padding: .85rem 0 .35rem; }
+.karte > .knopf { margin-bottom: 1rem; }
+
+.karte-kopf {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: .5rem;
+  padding: .9rem 0 .55rem;
+}
+.karte-kopf .datum { font-weight: 600; letter-spacing: -.02em; }
+.karte-kopf .titel { color: var(--leise); font-size: .875rem; }
+
+/* Zeile mit eingerückter Trennlinie – der iOS-Listen-Look */
+.zeile {
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  padding: .7rem 0;
+  border-top: 1px solid var(--linie);
+}
+.karte-kopf + .zeile, .zeile:first-child { border-top: 0; }
+.zeile .wachsen { flex: 1; min-width: 0; }
+.zeile .namen { color: var(--leise); font-size: .875rem; }
+.zeile .namen.offen { color: var(--leiser); }
+
+/* Ampel -------------------------------------------------------------- */
+.punkt { font-size: .8rem; line-height: 1.9; flex: none; }
+.punkt.rot   { color: var(--rot); }
+.punkt.gelb  { color: var(--gelb); }
+.punkt.gruen { color: var(--gruen); }
+
+.status-text { font-size: .8125rem; color: var(--leise); white-space: nowrap; }
+
+.abzeichen {
+  display: inline-block;
+  margin-left: .4rem;
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  background: var(--akzent-weich);
+  color: var(--akzent);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* Reiterleiste unten – durchscheinend mit Blur, wie in nativen Apps ---- */
+#reiter {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 20;
+  display: flex;
+  background: rgba(249, 249, 251, .82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--linie);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+#reiter button {
+  flex: 1;
+  min-width: 0;
+  padding: .7rem .25rem .75rem;
+  border: 0;
+  background: none;
+  color: var(--leise);
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+#reiter button.aktiv { color: var(--akzent); font-weight: 600; }
+
+/* Segmentierte Steuerung, wie iOS ------------------------------------- */
+.unterreiter {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 1.5rem;
+  padding: 2px;
+  background: rgba(120, 120, 128, .12);
+  border-radius: var(--radius-klein);
+}
+.unterreiter button {
+  flex: 1;
+  padding: .45rem .5rem;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--text);
+  font-size: .875rem;
+  font-weight: 500;
+}
+.unterreiter button.aktiv { background: var(--karte); font-weight: 600; }
+
+#fusszeile {
+  margin-top: 2rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--linie);
+  color: var(--leise);
+  font-size: .8125rem;
+}
+#fusszeile .verweis { font-size: .8125rem; }
+
+.leiste { margin: -.75rem 0 1.25rem; }
+
+.gruppe-titel {
+  margin: 1.75rem .25rem .6rem;
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--leise);
+}
+.gruppe-titel:first-child { margin-top: 0; }
+.gruppe-titel.warnung { color: var(--rot); }
+
+/* Overlay – Blattform von unten, wie ein iOS-Sheet --------------------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, .35);
+}
+.overlay[hidden] { display: none; }
+
+.overlay-karte {
+  width: 100%;
+  max-width: 30rem;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: .5rem 1.15rem calc(1.5rem + env(safe-area-inset-bottom));
+}
+.overlay-karte header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  padding: 1rem 0 .85rem;
+  background: var(--bg);
+}
+.overlay-karte header button {
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(120, 120, 128, .12);
+  color: var(--leise);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0;
+}
+.overlay-karte .hinweis { margin: 0 0 1.25rem; font-size: .9rem; }
+
+/* Präferenzen -------------------------------------------------------- */
+.pref-zeile {
+  padding: .85rem 1.1rem;
+  background: var(--karte);
+}
+.pref-zeile:first-of-type { border-radius: var(--radius) var(--radius) 0 0; }
+.pref-zeile:last-of-type  { border-radius: 0 0 var(--radius) var(--radius); }
+.pref-zeile + .pref-zeile { border-top: 1px solid var(--linie); }
+
+.pref-kopf {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text);
+}
+.pref-detail { margin: .85rem 0 .15rem 1.95rem; display: flex; flex-direction: column; gap: .7rem; }
+.pref-detail[hidden] { display: none; }
+.pref-detail label { margin: 0; color: var(--text); font-size: .9375rem; font-weight: 400; }
+.pref-detail select { width: auto; max-width: 100%; padding: .5rem 2rem .5rem .7rem; font-size: .9375rem; }
+
+/* Kästchen groß genug für den Daumen und im Akzentton */
+input[type=checkbox] {
+  width: 1.3rem;
+  height: 1.3rem;
+  flex: none;
+  accent-color: var(--akzent);
+  appearance: auto;
+}
+.mit-box { display: flex; align-items: center; gap: .6rem; }
+label.mit-box { color: var(--text); font-size: .9375rem; font-weight: 400; margin: .6rem 0 0; }
+
+@media (min-width: 700px) {
+  .overlay { align-items: center; }
+  .overlay-karte { border-radius: var(--radius); max-height: 80vh; }
+}

@@ -55,9 +55,26 @@ Aus `v_besetzung.status`: `rot` = ●, `gelb` = ●, `gruen` = ● (Farben s. u.
 
 ## Gestaltung
 
-- Ruhig und hell: Hintergrund #f7f7f5, Karten weiß mit 12 px Radius und feinem Schatten, Akzentfarbe ein gedecktes Blau (#3b5b7c). Ampel: #c0392b / #d9a441 / #4a8c5c.
-- Systemschrift (`system-ui`). Keine Icon-Bibliothek – Unicode (★ ● ＋) genügt.
+Leitbild: **schlank und aufgeräumt, angelehnt an Apples Systemoberflächen.**
+Hierarchie entsteht durch Typografie und Weißraum, nicht durch Rahmen, Schatten
+und Farbe. Farbe trägt nur dort Bedeutung, wo sie muss – Ampel und ein Akzent.
+
+- **Flächen:** Hintergrund #f2f2f7, Karten weiß, 14 px Radius, **keine Schatten**.
+  Trennung durch Haarlinien (`rgba(60,60,67,.13)`), zwischen Zeilen einer Karte
+  eingerückt – der Look gruppierter iOS-Listen.
+- **Typografie:** `-apple-system` (SF, wo vorhanden), Grundgröße 17 px, nie unter
+  16 px. Überschriften groß und eng laufend (2 rem, `letter-spacing: -.03em`).
+- **Akzent:** ein einziges Blau (#0a6cc4), sonst Grau in drei Stufen
+  (#1c1c1e / #6e6e73 / #aeaeb2).
+- **Ampel:** #d1362b / #b57a00 / #2f855a. Bewusst dunkler als Apples Systemfarben
+  – bei „unterbesetzt" geht Lesbarkeit vor Markentreue. Die Textform steht
+  überall daneben, Farbe allein darf keine Information tragen.
+- **Knöpfe:** getönte Pillen statt umrandeter Kästchen; die Hauptaktion einer
+  Ansicht gefüllt über die volle Breite.
+- **Reiterleiste unten:** durchscheinend mit `backdrop-filter: blur(20px)`.
+- Keine Icon-Bibliothek – Unicode (★ ●) genügt.
 - Kein Ladespinner-Zoo: eine dezente „Lade…"-Zeile pro Liste reicht.
+- Sichtbarer Tastaturfokus (`:focus-visible`) bleibt erhalten.
 
 ## Datenzugriffe (Referenz)
 
