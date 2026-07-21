@@ -76,6 +76,8 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-07-21 – Plan-Reiter: Filter nach Dienst (z. B. nur Kinderdienst über die
+  kommenden Wochen), Auswahl pro Gerät gemerkt.
 - 2026-07-21 – Phase 4 aktiviert: Keep-Alive + nächtliches Backup in privates
   Repo `dienstplan-backups` (Deploy-Key). Sichtprüfung Handy+Rechner ok.
 - 2026-07-21 – Joel: Funktionsumfang vorerst ausreichend (dann doch Phase 4
