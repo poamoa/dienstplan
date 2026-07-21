@@ -44,9 +44,11 @@ jobs:
         run: git clone git@github.com:poamoa/dienstplan-backups.git repo
 
       - name: Export erstellen
+        # Direkt den 17er-Binärpfad, weil /usr/bin/pg_dump (pg_wrapper) auf dem
+        # Runner weiter auf die vorinstallierte Version 16 zeigt.
         run: |
           mkdir -p repo/backups
-          pg_dump "${{ secrets.SUPABASE_DB_URL }}" \
+          /usr/lib/postgresql/17/bin/pg_dump "${{ secrets.SUPABASE_DB_URL }}" \
             --schema=public \
             --no-owner --no-privileges \
             --file="repo/backups/dienstplan-$(date +%F).sql"
