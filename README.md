@@ -52,7 +52,7 @@ Siehe **[START-HIER.md](START-HIER.md)** – mit Claude Code sind es im Kern zwe
 - [x] Phase 1: Supabase-Projekt aufgesetzt, SQL ausgeführt
 - [x] Phase 2: App gebaut
 - [x] Phase 3: Auf GitHub Pages online → https://poamoa.github.io/dienstplan/
-- [ ] Phase 4: Backup + Keep-Alive aktiv (Workflows deaktiviert, Secrets fehlen)
+- [x] Phase 4: Backup + Keep-Alive aktiv (Backup → privates Repo dienstplan-backups)
 - [ ] Phase 5: Testlauf mit 3 Personen
 - [ ] Phase 6: Rollout im Team
 

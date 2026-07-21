@@ -28,35 +28,38 @@ Dienste sieht und sich selbst einträgt.
 **Live und benutzbar:** https://poamoa.github.io/dienstplan/
 Team-Passwort nicht hier notieren (Repo ist öffentlich) – im Passwortmanager.
 
-Erledigt am 2026-07-20 (Phasen 0–3):
+Erledigt (Phasen 0–4):
 - App gebaut (`index.html`, `app.css`, `app.js`), Optik schlank/Apple.
 - Supabase `kztbppgwgptyeqnxnoab` (Frankfurt): Schema, Seed, RLS. 0 Tabellen
   ohne RLS. Neuer Schlüsseltyp (`sb_publishable_` in config.js, `sb_secret_`
   nur transient fürs Team-Konto).
 - Öffentliches Repo `poamoa/dienstplan`, GitHub Pages aktiv.
+- Termin-Plan Sep 26–Jul 27 (1./3. Sonntag, Pausen, 13 Sondertermine),
+  Sondertermine als Info ohne Ampel, Termine im Admin editierbar, versteckter
+  Admin-Zugang (5× auf Namen).
+- **Phase 4:** Keep-Alive aktiv; Backup läuft täglich in ein separates,
+  **privates** Repo `poamoa/dienstplan-backups` (Deploy-Key `BACKUP_DEPLOY_KEY`,
+  läuft nicht ab). Erster Dump liegt drin. Kein `backups/` im öffentlichen Repo.
+- Sichtprüfung im Browser (Handy + Rechner) durch Joel: funktioniert.
 - Gegen echte DB per API geprüft: Kriterium 1 (Login), 2 (ohne Login keine
-  Daten), 4 (Kinderdienst ohne Leiter → rot, mit → gelb). Details im
-  Änderungslog.
+  Daten), 4 (Ampelregel). Details im Änderungslog.
 
 Offen:
-- **Sichtprüfung im Browser** (Kriterien 3, 5, 6, 7) – nur Joel kann klicken.
-- **Phase 4 (Backup/Keep-Alive):** Workflows bewusst **deaktiviert**, damit sie
-  ohne Secrets keine Fehlermails senden. Vor Rollout: Secrets setzen und
-  `gh workflow enable backup.yml keepalive.yml`. Ohne Backup kein echter
-  Team-Rollout.
-- **Vertretung** für GitHub/Supabase weiterhin nicht benannt.
+- **Test-Personen** noch drin (Test Admin/Leiterin/Mitarbeiter) – vor Rollout
+  durch echte Vornamen ersetzen.
+- **Vertretung** für GitHub (beide Repos)/Supabase weiterhin nicht benannt.
 
 Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
-`workflow`-Scope.
+`workflow`-Scope. GitHub-Konto `poamoa`.
 
 ## Nächster konkreter Schritt
-Funktionsumfang gilt vorerst als ausreichend (Entscheidung Joel, 2026-07-21) –
-Entwicklung pausiert. Wenn es weitergeht, in dieser Reihenfolge:
-1. Joel klickt die Live-Seite auf dem Handy durch: Plan/Rhythmus/Sondertermine
-   prüfen, **5× auf den eigenen Namen tippen** für Admin, Termin bearbeiten.
-2. Phase 4 (Backup + Keep-Alive) aktivieren: Secrets setzen, Workflows enablen.
-3. Test-Personen durch echte Namen ersetzen, dann Testlauf (Phase 5).
-Erst nach 2. dürfen echte Namen rein (ohne Backup kein Rollout).
+Phasen 0–4 erledigt (App live, Termine, Backup+Keep-Alive aktiv). Offen bis zum
+echten Rollout:
+1. Test-Personen (Test Admin/Leiterin/Mitarbeiter) durch echte Vornamen ersetzen
+   – im Adminbereich (5× auf Namen tippen) unter Personen.
+2. Testlauf mit 3 Personen, 1 Woche (Phase 5), dann Rollout (Phase 6).
+3. **Vertretung** benennen: Zugriff auf beide Repos (öffentlich + privates
+   `dienstplan-backups`), Supabase, DB-Passwort im Passwortmanager.
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
@@ -73,8 +76,10 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
-- 2026-07-21 – Joel: Funktionsumfang vorerst ausreichend, Entwicklung pausiert.
-  Offen: Browser-Sichtprüfung, Phase 4 (Backup), echte Namen.
+- 2026-07-21 – Phase 4 aktiviert: Keep-Alive + nächtliches Backup in privates
+  Repo `dienstplan-backups` (Deploy-Key). Sichtprüfung Handy+Rechner ok.
+- 2026-07-21 – Joel: Funktionsumfang vorerst ausreichend (dann doch Phase 4
+  angegangen).
 - 2026-07-20 – Termin-Plan Sep 26–Jul 27 generiert (1./3. Sonntag, Winter-/
   Sommerpause, 13 Sondertermine), Spalte `braucht_dienste` für Info-Termine,
   Termine im Admin editierbar, versteckter Admin-Zugang (5× auf Namen tippen).

@@ -13,6 +13,30 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-07-21 – Phase 4: Keep-Alive + Backup aktiv (Backup in privates Repo)
+
+- **Wer:** Joel, mit Claude
+- **Was:**
+  - Keep-Alive aktiviert (Secrets `SUPABASE_URL`, `SUPABASE_ANON_KEY`), Testlauf grün.
+  - Backup umgebaut: schreibt in ein **separates, privates** Repo
+    `poamoa/dienstplan-backups` statt in dieses (öffentliche) Repo. Zugriff über
+    einen **Deploy-Key** (Secret `BACKUP_DEPLOY_KEY`), der nicht abläuft. Secret
+    `SUPABASE_DB_URL` (Session-Pooler) gesetzt. Testlauf grün, erster Dump liegt
+    im privaten Repo (`backups/dienstplan-2026-07-21.sql`).
+  - Workflow installiert `postgresql-client-17` und ruft
+    `/usr/lib/postgresql/17/bin/pg_dump` direkt auf (Runner-Default ist 16,
+    Server 17 → sonst „server version mismatch").
+- **Warum:** Dieses Repo ist öffentlich (Pages). Ein DB-Export enthält alle
+  Vornamen + Dienstplan und darf nicht öffentlich werden. Deploy-Key statt PAT,
+  weil der nicht erneuert werden muss (Wunsch Joel).
+- **Getestet:** Beide Workflows grün. Kontrolliert, dass KEIN `backups/`-Ordner
+  im öffentlichen Repo liegt und der Dump nur im privaten Repo ist.
+- **Folgen:** Phase 4 erledigt. Backup-Repo ist Teil des Systems – Vertretung
+  braucht auch dort Zugriff (siehe `docs/05`). Damit ist der Weg frei für echte
+  Namen (Phase 6).
+
+---
+
 ## 2026-07-20 – Termin-Plan 2026/27, Sondertermine, editierbare Termine, versteckter Admin
 
 - **Wer:** Joel, mit Claude
