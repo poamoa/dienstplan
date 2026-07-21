@@ -60,6 +60,11 @@ Offen:
 - **Kinderdienst-Leiter** dünn (v. a. KiDi-K nur 2). Wird von den Leuten selbst
   nach Absprache nachgezogen (Präferenz „kann leiten"), keine Technik-Aufgabe.
 - Viele Personen ohne Präferenzen – füllt sich per Selbstbedienung im Testlauf.
+- **Technische Altlast: `/neues-jahr`-Skill passt nicht zum neuen Rhythmus.** Er
+  legt *alle* Sonntage der nächsten 12 Monate an; der reale Plan ist aber 1./3.
+  Sonntag mit Winter-/Sommerpause (siehe `sql/04`). Vor der nächsten Jahres-
+  planung (Herbst 2027) anpassen, sonst erzeugt er falsche Termine. Auch
+  `docs/05` („Jährlich im Herbst … `sql/02_seed.sql`") entsprechend korrigieren.
 
 Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
 `workflow`-Scope. GitHub-Konto `poamoa`.
