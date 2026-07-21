@@ -3,7 +3,7 @@
 Lebendes Dokument. Wird von Claude Code am Session-Ende SELBSTSTÄNDIG
 aktualisiert (Regel 3 der globalen CLAUDE.md).
 
-_Zuletzt aktualisiert: 2026-07-20_
+_Zuletzt aktualisiert: 2026-07-21_
 
 ## Ziel & Kernnutzen
 Die Diensteinteilung der Gemeinde (Kinderdienst, Aufbau, Technik, …) läuft
@@ -50,10 +50,13 @@ Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
 `workflow`-Scope.
 
 ## Nächster konkreter Schritt
-Joel klickt die Live-Seite auf dem Handy durch: anmelden → Plan prüfen (stimmen
-Termine/Rhythmus/Sondertermine?) → **5× auf den eigenen Namen unten tippen** für
-den Adminbereich → Termin bearbeiten testen. Gefundene Punkte hier melden.
-Danach: Phase 4 (Backup) aktivieren, bevor echte Namen rein.
+Funktionsumfang gilt vorerst als ausreichend (Entscheidung Joel, 2026-07-21) –
+Entwicklung pausiert. Wenn es weitergeht, in dieser Reihenfolge:
+1. Joel klickt die Live-Seite auf dem Handy durch: Plan/Rhythmus/Sondertermine
+   prüfen, **5× auf den eigenen Namen tippen** für Admin, Termin bearbeiten.
+2. Phase 4 (Backup + Keep-Alive) aktivieren: Secrets setzen, Workflows enablen.
+3. Test-Personen durch echte Namen ersetzen, dann Testlauf (Phase 5).
+Erst nach 2. dürfen echte Namen rein (ohne Backup kein Rollout).
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
@@ -70,6 +73,8 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-07-21 – Joel: Funktionsumfang vorerst ausreichend, Entwicklung pausiert.
+  Offen: Browser-Sichtprüfung, Phase 4 (Backup), echte Namen.
 - 2026-07-20 – Termin-Plan Sep 26–Jul 27 generiert (1./3. Sonntag, Winter-/
   Sommerpause, 13 Sondertermine), Spalte `braucht_dienste` für Info-Termine,
   Termine im Admin editierbar, versteckter Admin-Zugang (5× auf Namen tippen).
