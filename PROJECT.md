@@ -44,22 +44,27 @@ Erledigt (Phasen 0–4):
 - Gegen echte DB per API geprüft: Kriterium 1 (Login), 2 (ohne Login keine
   Daten), 4 (Ampelregel). Details im Änderungslog.
 
+**Phase 5 (Testlauf) gestartet am 2026-07-21:** 32 echte Personen angelegt
+(Bereichsleiter mit Präferenzen), Test-Personen gelöscht. Testlauf mit Joel + 2
+Bereichsleitern, eine Woche, dann Rollout (Phase 6).
+
 Offen:
-- **Test-Personen** noch drin (Test Admin/Leiterin/Mitarbeiter) – vor Rollout
-  durch echte Vornamen ersetzen.
+- **Kinderdienst-Leiter** dünn (v. a. KiDi-K nur 2). Wird von den Leuten selbst
+  nach Absprache nachgezogen (Präferenz „kann leiten"), keine Technik-Aufgabe.
+- **Admin-Modell entscheiden** (vor Rollout, nicht vor Test): `ist_admin` ist
+  seit dem versteckten Zugang nur noch kosmetisch. Weiches Modell (Geste, jeder
+  Eingeloggte kann schreiben) vs. echtes Gating (separater Admin-Login + RLS).
 - **Vertretung** für GitHub (beide Repos)/Supabase weiterhin nicht benannt.
+- Viele Personen ohne Präferenzen – füllt sich per Selbstbedienung im Testlauf.
 
 Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
 `workflow`-Scope. GitHub-Konto `poamoa`.
 
 ## Nächster konkreter Schritt
-Phasen 0–4 erledigt (App live, Termine, Backup+Keep-Alive aktiv). Offen bis zum
-echten Rollout:
-1. Test-Personen (Test Admin/Leiterin/Mitarbeiter) durch echte Vornamen ersetzen
-   – im Adminbereich (5× auf Namen tippen) unter Personen.
-2. Testlauf mit 3 Personen, 1 Woche (Phase 5), dann Rollout (Phase 6).
-3. **Vertretung** benennen: Zugriff auf beide Repos (öffentlich + privates
-   `dienstplan-backups`), Supabase, DB-Passwort im Passwortmanager.
+Testlauf läuft (seit 2026-07-21, ~1 Woche): Joel + 2 Bereichsleiter nutzen die
+App echt. Rückmeldungen sammeln. Danach: Admin-Modell entscheiden, Vertretung
+benennen, dann Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
+zusätzlich die Admin-Geste (5× auf den eigenen Namen tippen).
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
@@ -76,6 +81,9 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-07-21 – 32 echte Personen angelegt (Bereichsleiter mit Präferenzen),
+  Test-Personen gelöscht, Stand ins private Backup-Repo gesichert. Phase 5
+  (Testlauf mit 3 Personen) gestartet.
 - 2026-07-21 – Plan-Reiter: Filter nach Dienst (z. B. nur Kinderdienst über die
   kommenden Wochen), Auswahl pro Gerät gemerkt.
 - 2026-07-21 – Phase 4 aktiviert: Keep-Alive + nächtliches Backup in privates
