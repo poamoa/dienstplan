@@ -48,13 +48,17 @@ Erledigt (Phasen 0–4):
 (Bereichsleiter mit Präferenzen), Test-Personen gelöscht. Testlauf mit Joel + 2
 Bereichsleitern, eine Woche, dann Rollout (Phase 6).
 
+Entschieden (2026-07-21):
+- **Admin-Modell bleibt weich** (Geste, kein echtes Gating). `ist_admin` ist nur
+  noch kosmetisch. Kein Handlungsbedarf.
+- **Vertretung: Dominik** vorgesehen – Joel klärt Zusage mit ihm. Danach
+  einrichten: GitHub-Collaborator auf BEIDEN Repos (Claude kann das per
+  GitHub-Username), Supabase-Member (Joel im Dashboard), Passwörter in den
+  gemeinsamen Passwortmanager.
+
 Offen:
 - **Kinderdienst-Leiter** dünn (v. a. KiDi-K nur 2). Wird von den Leuten selbst
   nach Absprache nachgezogen (Präferenz „kann leiten"), keine Technik-Aufgabe.
-- **Admin-Modell entscheiden** (vor Rollout, nicht vor Test): `ist_admin` ist
-  seit dem versteckten Zugang nur noch kosmetisch. Weiches Modell (Geste, jeder
-  Eingeloggte kann schreiben) vs. echtes Gating (separater Admin-Login + RLS).
-- **Vertretung** für GitHub (beide Repos)/Supabase weiterhin nicht benannt.
 - Viele Personen ohne Präferenzen – füllt sich per Selbstbedienung im Testlauf.
 
 Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
@@ -62,8 +66,9 @@ Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
 
 ## Nächster konkreter Schritt
 Testlauf läuft (seit 2026-07-21, ~1 Woche): Joel + 2 Bereichsleiter nutzen die
-App echt. Rückmeldungen sammeln. Danach: Admin-Modell entscheiden, Vertretung
-benennen, dann Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
+App echt. Rückmeldungen sammeln. Parallel: Joel klärt Vertretung mit Dominik;
+sobald zugesagt, Zugänge einrichten (GitHub-Collaborator kann Claude, Supabase
+Joel). Danach Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
 zusätzlich die Admin-Geste (5× auf den eigenen Namen tippen).
 
 ## Offene Entscheidungen
