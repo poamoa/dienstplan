@@ -20,7 +20,8 @@
 // scripts/setup.sh diese Datei komplett überschreibt.
 const TEAM_EMAIL = "team@gemeinde.de";
 
-const TERMINE_ANSICHT = 8;   // Reiter "Eintragen" und "Plan"
+const TERMINE_ANSICHT = 8;   // Reiter "Eintragen"
+const TERMINE_PLAN = 12;     // Reiter "Plan" (etwas weiter voraus, für den Filter)
 const TERMINE_ADMIN = 12;    // Reiter "Verwaltung"
 
 const SPEICHER_PERSON = "dienstplan_person_id";
@@ -29,6 +30,8 @@ const SPEICHER_PERSON = "dienstplan_person_id";
 // einer Person. Das ist – wie in sql/03_rls.sql dokumentiert – nur eine
 // Sicht-Sperre gegen versehentlichen Zugriff, kein echter Schutz.
 const SPEICHER_ADMIN = "dienstplan_admin";
+// Gewählter Dienst-Filter im Plan-Reiter (bereich_id oder "" = alle), pro Gerät.
+const SPEICHER_PLANFILTER = "dienstplan_planfilter";
 
 const STATUS_TEXT = { rot: "unterbesetzt", gelb: "knapp", gruen: "besetzt" };
 
@@ -38,6 +41,7 @@ let ich = null;              // Datensatz dieser Person
 let aktiverTab = "meine";
 let aktiverUnterTab = "ampel";
 let editTerminId = null;        // welcher Termin gerade im Bearbeiten-Modus ist
+let planFilter = "";            // Dienst-Filter im Plan (bereich_id oder "")
 
 // Daten, bei jedem Laden frisch
 let bereiche = [];
@@ -510,19 +514,64 @@ async function tabPlan() {
   ziel.className = "lade";
   ziel.textContent = "Lade…";
 
-  if (!(await planLaden(TERMINE_ANSICHT))) return;
+  if (!(await planLaden(TERMINE_PLAN))) return;
 
   ziel.className = "";
+  planRender();
+}
+
+/** Zeichnet den Plan aus den bereits geladenen Daten – ohne Nachladen, damit
+ *  das Umschalten des Filters sofort reagiert. */
+function planRender() {
+  const ziel = $("plan-inhalt");
   leeren(ziel);
+  ziel.appendChild(planFilterLeiste());
 
   if (!termine.length) {
     ziel.appendChild(e("p", { class: "leer", text: "Es sind noch keine Termine angelegt." }));
     return;
   }
 
-  for (const t of termine) {
-    ziel.appendChild(istInfoTermin(t) ? infoKarte(t) : planKarte(t, bereiche, false));
+  const gewaehlt = bereichVon(planFilter);       // undefined, wenn "alle" oder Bereich weg
+  const welche = gewaehlt ? [gewaehlt] : bereiche;
+  const zeigeInfos = !gewaehlt;                  // Sondertermine nur in der Gesamtansicht
+
+  if (gewaehlt) {
+    ziel.appendChild(e("div", { class: "gruppe-titel", text: gewaehlt.name + " – kommende Termine" }));
   }
+
+  let gezeigt = 0;
+  for (const t of termine) {
+    if (istInfoTermin(t)) {
+      if (zeigeInfos) ziel.appendChild(infoKarte(t));
+      continue;
+    }
+    ziel.appendChild(planKarte(t, welche, false));
+    gezeigt++;
+  }
+
+  if (gewaehlt && !gezeigt) {
+    ziel.appendChild(e("p", { class: "leer", text: "Für diesen Dienst stehen keine Termine an." }));
+  }
+}
+
+/** Auswahlleiste zum Filtern des Plans nach einem einzelnen Dienst. */
+function planFilterLeiste() {
+  const sel = e("select", { "aria-label": "Plan nach Dienst filtern" });
+  sel.appendChild(e("option", { value: "", text: "Alle Dienste" }));
+  for (const b of bereiche) sel.appendChild(e("option", { value: b.id, text: b.name }));
+  sel.value = bereichVon(planFilter) ? planFilter : "";
+
+  sel.addEventListener("change", () => {
+    planFilter = sel.value;
+    speicher.schreiben(SPEICHER_PLANFILTER, planFilter);
+    planRender();
+  });
+
+  return e("div", { class: "plan-filter" }, [
+    e("label", { class: "plan-filter-label", text: "Dienst" }),
+    sel,
+  ]);
 }
 
 /** Karte für einen Sondertermin: nur Datum, Titel, optional Notiz. Keine Ampel. */
@@ -1144,6 +1193,7 @@ function adminGesteVerdrahten() {
 
 async function start() {
   ereignisseVerdrahten();
+  planFilter = speicher.lesen(SPEICHER_PLANFILTER) || "";
 
   if (!window.CONFIG || !window.CONFIG.SUPABASE_URL || !window.CONFIG.SUPABASE_ANON_KEY) {
     ansichtZeigen("anmeldung");

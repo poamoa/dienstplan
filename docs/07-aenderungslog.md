@@ -13,6 +13,20 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-07-21 – Plan-Reiter: Filter nach Dienst
+
+- **Wer:** Joel, mit Claude
+- **Was:** Oben im Plan-Reiter eine Auswahl „Alle Dienste" / einzelner Bereich.
+  Bei gewähltem Bereich zeigt jede Terminkarte nur diesen Dienst (Belegung +
+  Ampel), Sondertermine werden ausgeblendet. Auswahl pro Gerät gemerkt
+  (`localStorage`). Plan lädt jetzt 12 statt 8 Termine voraus.
+- **Warum:** Wunsch Joel – z. B. ein Kinderdienst-Leiter will nur seine Dienste
+  über die kommenden Wochen sehen, nicht alle 7 Bereiche pro Termin.
+- **Getestet:** JS-Harness: ungefiltert alle Bereiche + Sondertermine, gefiltert
+  nur der gewählte Dienst, 0 Info-Karten. Browser-Sichtprüfung offen (Joel).
+
+---
+
 ## 2026-07-21 – Phase 4: Keep-Alive + Backup aktiv (Backup in privates Repo)
 
 - **Wer:** Joel, mit Claude

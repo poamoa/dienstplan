@@ -340,6 +340,22 @@ button[disabled] { opacity: .4; cursor: default; }
 
 .leiste { margin: -.75rem 0 1.25rem; }
 
+/* Filterleiste im Plan-Reiter */
+.plan-filter {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin: -.5rem 0 1.25rem;
+}
+.plan-filter-label {
+  margin: 0;
+  flex: none;
+  font-size: .9375rem;
+  font-weight: 500;
+  color: var(--leise);
+}
+.plan-filter select { flex: 1; min-width: 0; }
+
 .gruppe-titel {
   margin: 1.75rem .25rem .6rem;
   font-size: .75rem;

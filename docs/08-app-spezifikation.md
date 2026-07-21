@@ -44,7 +44,8 @@ Rolle mehr.
 
 ## Reiter 3: Plan (für alle lesbar)
 
-- Nächste 8 Termine als Karten. Pro Karte alle 7 Bereiche in `sortierung`-Reihenfolge: Kürzel, Namen der Eingeteilten (Leiter mit ★), Status-Punkt.
+- Nächste 12 Termine als Karten. Pro Karte alle 7 Bereiche in `sortierung`-Reihenfolge: Kürzel, Namen der Eingeteilten (Leiter mit ★), Status-Punkt.
+- **Filter nach Dienst** (oben): Auswahl „Alle Dienste" (Standard) oder ein einzelner Bereich. Bei einem gewählten Bereich zeigt jede Terminkarte nur diesen einen Dienst samt Belegung/Ampel – so bekommt z. B. ein Kinderdienst-Leiter die Übersicht seiner kommenden Dienste. Die Auswahl wird pro Gerät gemerkt (`localStorage` `dienstplan_planfilter`). Bei aktivem Filter werden Sondertermine ausgeblendet (kein Bezug zum Dienst).
 - **Info-/Sondertermine** (`braucht_dienste = false`, z. B. Lobpreisabend): schlanke Karte nur mit Datum, Titel und Abzeichen „Sondertermin", ohne Bereiche/Ampel. Im Reiter „Eintragen" tauchen sie nicht auf.
 - Reine Leseansicht.
 
