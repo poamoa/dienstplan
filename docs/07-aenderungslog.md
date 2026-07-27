@@ -13,6 +13,37 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-07-27 – Testlauf-Rückmeldungen: Buttons + neue Bereiche
+
+- **Wer:** Joel, mit Claude
+- **Was:**
+  1. `app.js` `selbstEintragen`: der native `confirm()`-Dialog
+     (OK = Leiter / Abbrechen = Mitarbeiter) ersetzt durch das vorhandene
+     iOS-Sheet mit zwei beschrifteten Buttons „Als Leiter eintragen" /
+     „Als Mitarbeiter eintragen" (neue Funktionen `rolleWaehlen`,
+     `eintragSpeichern`; `.knopf.zweit` in `app.css`).
+  2. Konzept „optionaler Pool ohne Ampel": neue Spalte `bereiche.mit_ampel`
+     (`sql/05_bereiche_helfer.sql`). Bei `mit_ampel = false` zeigt die App
+     keine Ampel und kein „x/min", nur wer dabei ist. `ampel()` und
+     `belegungText()` nehmen jetzt den Bereich mit; `austragen` und die
+     „rot"-Gruppierung im Plan überspringen solche Pools.
+  3. Vier neue Bereiche (SQL): „Kinderdienst Stationen" (Min 2, mit Ampel),
+     „Helfer Kinderdienst", „Band & Sänger", „Helfer Lobpreis" (je Min 0,
+     ohne Ampel).
+- **Warum:** Rückmeldungen aus dem Testlauf (Phase 5): Leiter/Mitarbeiter-Dialog
+  unintuitiv; Bedarf an Stationsaufsicht, Band & Sängern und allgemeinen
+  Helfern (Lobpreis, Kinderdienst) mit unbestimmter Anzahl.
+- **Getestet:** Syntax mit JavaScriptCore kompiliert; `ampel`/`belegungText` in
+  10 Unit-Tests gegen die aus der Datei extrahierten Funktionen (inkl. Fall
+  „alte DB ohne Spalte" → normale Ampel). Interaktive Sichtprüfung (Login →
+  Eintragen) bleibt bei Joel.
+- **Deployt:** Am 2026-07-27 nach Freigabe gepusht (GitHub Pages). Der Button-Fix
+  ist damit live. Die `mit_ampel`-Renderlogik ist rückwärtskompatibel und bleibt
+  dormant, bis `sql/05` gelaufen ist.
+- **Folgen:** `sql/05_bereiche_helfer.sql` noch im Supabase SQL-Editor ausführen –
+  erst dann existieren die neuen Bereiche/Pools. Ohne die Spalte behandelt die
+  App alles wie `mit_ampel = true` (unkritisch).
+
 ## 2026-07-21 – Plan-Reiter: Filter nach Dienst
 
 - **Wer:** Joel, mit Claude

@@ -128,8 +128,11 @@ function heuteIso() {
 
 /** Ampelpunkt + Textform. Die Textform ist nicht Deko, sondern
  *  Barrierefreiheit: Farbe allein darf keine Information tragen. */
-function ampel(status) {
-  const s = status || "rot";
+function ampel(zeile, b) {
+  // Optionale Pools (mit_ampel = false, z. B. Band, allg. Helfer) tragen keine
+  // Ampel – bei "unbestimmter Anzahl" gibt es kein Über-/Unterbesetzt.
+  if (b && b.mit_ampel === false) return null;
+  const s = (zeile && zeile.status) || "rot";
   return e("span", {
     class: `punkt ${s}`,
     text: "●",
@@ -138,8 +141,10 @@ function ampel(status) {
   });
 }
 
-function belegungText(zeile) {
+function belegungText(zeile, b) {
   if (!zeile) return "";
+  // Ohne Ampel zählt nur, wer dabei ist – kein "x/min", kein "Leiter fehlt".
+  if (b && b.mit_ampel === false) return zeile.anzahl ? `${zeile.anzahl} dabei` : "";
   let t = `${zeile.anzahl}/${zeile.min_personen}`;
   if (zeile.braucht_leiter && !zeile.leiter_da) t += " · Leiter fehlt";
   return t;
@@ -381,7 +386,7 @@ async function austragen(eintrag) {
 
   // Wird der Bereich durch das Austragen rot? Nachrechnen wie in docs/02.
   let wirdRot = false;
-  if (zeile && b) {
+  if (zeile && b && b.mit_ampel !== false) {
     const anzahlDanach = zeile.anzahl - 1;
     const leiterDanach = eintrag.als_leiter
       ? einteilungen.some((x) =>
@@ -458,10 +463,10 @@ async function tabEintragen() {
 
       karte.appendChild(
         e("div", { class: "zeile" }, [
-          ampel(zeile && zeile.status),
+          ampel(zeile, b),
           e("div", { class: "wachsen" }, [
             e("div", { text: b.name }),
-            e("div", { class: "namen", text: belegungText(zeile) }),
+            e("div", { class: "namen", text: belegungText(zeile, b) }),
           ]),
           meiner
             ? e("button", {
@@ -484,17 +489,36 @@ async function tabEintragen() {
 }
 
 async function selbstEintragen(termin, bereich, pref) {
-  let alsLeiter = false;
-
-  // Nur fragen, wenn die Person hier überhaupt leiten darf – sonst ist die
-  // Rückfrage nur Lärm.
+  // Wo die Person leiten darf, erst fragen WIE sie sich einträgt – aber mit
+  // echten, beschrifteten Buttons statt einem OK/Abbrechen-Dialog.
   if (bereich.braucht_leiter && pref && pref.kann_leiten) {
-    alsLeiter = confirm(
-      `${bereich.name} am ${datumKurz(termin.datum)}\n\n` +
-      "OK = als Leiter eintragen\nAbbrechen = als Mitarbeiter eintragen"
-    );
+    rolleWaehlen(termin, bereich);
+    return;
   }
+  await eintragSpeichern(termin, bereich, false);
+}
 
+/** Kleines Sheet: als Leiter oder als Mitarbeiter eintragen. */
+function rolleWaehlen(termin, bereich) {
+  const inhalt = e("div", {}, [
+    e("p", { class: "hinweis", text: "Wie möchtest du dich eintragen?" }),
+    e("button", {
+      type: "button",
+      class: "knopf",
+      text: "Als Leiter eintragen",
+      onclick: async () => { overlaySchliessen(); await eintragSpeichern(termin, bereich, true); },
+    }),
+    e("button", {
+      type: "button",
+      class: "knopf zweit",
+      text: "Als Mitarbeiter eintragen",
+      onclick: async () => { overlaySchliessen(); await eintragSpeichern(termin, bereich, false); },
+    }),
+  ]);
+  overlayZeigen(`${bereich.name} · ${datumKurz(termin.datum)}`, inhalt);
+}
+
+async function eintragSpeichern(termin, bereich, alsLeiter) {
   const { error } = await sb.from("einteilungen").insert({
     termin_id: termin.id,
     bereich_id: bereich.id,
@@ -611,12 +635,12 @@ function planKarte(t, welcheBereiche, anklickbar) {
 
     karte.appendChild(
       e("div", { class: "zeile" }, [
-        ampel(zeile && zeile.status),
+        ampel(zeile, b),
         e("div", { class: "wachsen" }, [
           e("div", {}, [
             e("strong", { text: b.kuerzel }),
             " ",
-            e("span", { class: "status-text", text: belegungText(zeile) }),
+            e("span", { class: "status-text", text: belegungText(zeile, b) }),
           ]),
           e("div", {
             class: drin.length ? "namen" : "namen offen",
@@ -670,6 +694,7 @@ async function adminAmpel() {
 
   // Nur reguläre Termine haben eine Ampel; Sondertermine werden nie "rot".
   const istRot = (t) => !istInfoTermin(t) && bereiche.some((b) => {
+    if (b.mit_ampel === false) return false;   // optionale Pools nie als Mangel werten
     const z = besetzungVon(t.id, b.id);
     return z && z.status === "rot";
   });
@@ -703,10 +728,10 @@ function adminTerminDetail(terminId) {
 
     const block = e("div", { class: "karte" }, [
       e("div", { class: "zeile" }, [
-        ampel(zeile && zeile.status),
+        ampel(zeile, b),
         e("div", { class: "wachsen" }, [
           e("h3", { text: b.name }),
-          e("div", { class: "namen", text: belegungText(zeile) }),
+          e("div", { class: "namen", text: belegungText(zeile, b) }),
         ]),
       ]),
     ]);

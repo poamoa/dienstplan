@@ -156,6 +156,8 @@ button[type=submit],
   transition: opacity .15s ease;
 }
 button[type=submit]:active, .knopf:active { opacity: .8; }
+/* Zweitrangiger Knopf im Sheet: getönt statt gefüllt */
+.knopf.zweit { background: var(--akzent-weich); color: var(--akzent); margin-top: .6rem; }
 button[disabled] { opacity: .4; cursor: default; }
 
 /* Kleiner Knopf: getönt statt umrandet – Rahmen wirken schwer */

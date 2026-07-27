@@ -3,7 +3,7 @@
 Lebendes Dokument. Wird von Claude Code am Session-Ende SELBSTSTÄNDIG
 aktualisiert (Regel 3 der globalen CLAUDE.md).
 
-_Zuletzt aktualisiert: 2026-07-21_
+_Zuletzt aktualisiert: 2026-07-27_
 
 ## Ziel & Kernnutzen
 Die Diensteinteilung der Gemeinde (Kinderdienst, Aufbau, Technik, …) läuft
@@ -69,12 +69,28 @@ Offen:
 Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
 `workflow`-Scope. GitHub-Konto `poamoa`.
 
+**Testlauf-Rückmeldungen (2026-07-27) ausgewertet und umgesetzt:**
+- Leiter/Mitarbeiter-Dialog war unintuitiv (OK/Abbrechen) → echtes Sheet mit
+  zwei beschrifteten Buttons. Erledigt in `app.js`/`app.css`, **am 2026-07-27
+  deployt.**
+- Neue Bereiche: „Kinderdienst Stationen" (Stationsaufsicht, Min 2),
+  „Band & Sänger", „Helfer Kinderdienst", „Helfer Lobpreis". Die drei letzten
+  sind optionale Pools „unbestimmter Anzahl": neues Konzept `bereiche.mit_ampel`
+  = false → keine Ampel, nur wer dabei ist. App-Code deployt (rückwärts-
+  kompatibel, dormant bis die Bereiche existieren); **DB-Teil offen**: `sql/05`
+  muss noch in Supabase laufen.
+
 ## Nächster konkreter Schritt
-Testlauf läuft (seit 2026-07-21, ~1 Woche): Joel + 2 Bereichsleiter nutzen die
-App echt. Rückmeldungen sammeln. Parallel: Joel klärt Vertretung mit Dominik;
-sobald zugesagt, Zugänge einrichten (GitHub-Collaborator kann Claude, Supabase
-Joel). Danach Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
-zusätzlich die Admin-Geste (5× auf den eigenen Namen tippen).
+1. **Joel:** `sql/05_bereiche_helfer.sql` im Supabase SQL-Editor ausführen
+   (Bereiche + Spalte `mit_ampel`). Namen/Kürzel vorher prüfen. Erst danach
+   erscheinen die neuen Bereiche/Pools in der (schon deployten) App.
+2. **Joel:** App im Browser prüfen: Eintragen-Sheet für einen Kinderdienst
+   (Leiter/Mitarbeiter-Buttons) ist ab jetzt live; nach dem SQL zusätzlich ein
+   optionaler Pool ohne Ampel, nur Namen.
+3. Parallel weiter offen: Vertretung mit Dominik klären; sobald zugesagt,
+   Zugänge einrichten (GitHub-Collaborator kann Claude, Supabase-Member Joel).
+   Danach Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
+   zusätzlich die Admin-Geste (5× auf den eigenen Namen tippen).
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
