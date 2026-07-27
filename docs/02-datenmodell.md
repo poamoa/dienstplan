@@ -80,11 +80,22 @@ leiter_da = mindestens eine Einteilung mit als_leiter = true
 
 rot   wenn anzahl < min_personen
       ODER (braucht_leiter = true UND leiter_da = false)
-gelb  wenn anzahl = min_personen   (erfüllt, aber ohne Puffer)
-grün  wenn anzahl > min_personen
+grün  wenn min_personen ≤ 1  (Ein-Personen-Dienst: Pflichtzahl = voll besetzt)
+      ODER anzahl > min_personen
+gelb  sonst = anzahl = min_personen bei mehrköpfigen Bereichen
+      (erfüllt, aber ohne Puffer)
 ```
 
 Ein Kinderdienst mit 3 Mitarbeitern, aber ohne Leiter, ist **rot**. Das ist der Fall, den A3 abfängt.
+
+Ein-Personen-Dienste (Sprecher, Milch und Wasser, Lobpreisleitung) sind mit
+ihrer einen Pflichtperson voll besetzt und daher **grün**, nicht gelb (Wunsch
+aus dem Testlauf, 2026-07-27).
+
+**Hinweis:** Diese Regel wird seit 2026-07-27 in der App (`statusVon()` in
+`app.js`) gerechnet, nicht mehr über das `status`-Feld der View `v_besetzung`.
+Die View liefert es weiter, die App ignoriert es. Ampel-Änderungen daher in
+`statusVon()`, keine DB-Migration nötig.
 
 ## Bewusste Vereinfachungen
 

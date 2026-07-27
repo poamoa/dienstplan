@@ -13,6 +13,22 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-07-28 – Ein-Personen-Dienste werden grün statt gelb
+
+- **Wer:** Joel, mit Claude
+- **Was:** Neue Funktion `statusVon(zeile)` in `app.js` berechnet den Ampelstatus
+  jetzt im Frontend (nicht mehr aus `v_besetzung.status`). Neue Regel:
+  Bereiche mit `min_personen ≤ 1` sind bei erfüllter Pflichtzahl **grün**;
+  mehrköpfige Bereiche bleiben bei genau Minimum gelb. `ampel()` und die
+  „rot"-Gruppierung (`adminAmpel`) nutzen `statusVon()`.
+- **Warum:** Testlauf-Wunsch – Sprecher und Milch & Wasser (je Min 1) zeigten
+  mit ihrer einen Person gelb, obwohl voll besetzt.
+- **Getestet:** Syntax (JavaScriptCore) + 13 Unit-Tests gegen die extrahierte
+  `statusVon` (Ein-Personen-, mehrköpfig, Leiterpflicht, Überbesetzung).
+- **Deployt:** Am 2026-07-28 gepusht (GitHub Pages). Rein Frontend, keine DB.
+- **Folgen:** Ampel-Logik lebt jetzt im Code, nicht in der View. Künftige
+  Änderungen in `statusVon()`. `v_besetzung.status` wird nicht mehr gelesen.
+
 ## 2026-07-27 – Testlauf-Rückmeldungen: Buttons + neue Bereiche
 
 - **Wer:** Joel, mit Claude

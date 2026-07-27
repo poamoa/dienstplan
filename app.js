@@ -126,13 +126,27 @@ function heuteIso() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
+/** Ampelstatus aus den Rohzahlen des Bereichs. Bewusst hier statt in der
+ *  DB-View, damit sich die Regel ohne Migration ändern lässt.
+ *  Ein-Personen-Dienste (Min ≤ 1, z. B. Sprecher, M&W, Lobpreisleitung) sind
+ *  mit der Pflichtzahl schon voll besetzt → grün. Mehrköpfige Bereiche zeigen
+ *  bei genau Minimum gelb ("besetzt, aber kein Puffer"), erst darüber grün. */
+function statusVon(zeile) {
+  if (!zeile) return "rot";
+  if (zeile.anzahl < zeile.min_personen) return "rot";
+  if (zeile.braucht_leiter && !zeile.leiter_da) return "rot";
+  if (zeile.min_personen <= 1) return "gruen";
+  if (zeile.anzahl === zeile.min_personen) return "gelb";
+  return "gruen";
+}
+
 /** Ampelpunkt + Textform. Die Textform ist nicht Deko, sondern
  *  Barrierefreiheit: Farbe allein darf keine Information tragen. */
 function ampel(zeile, b) {
   // Optionale Pools (mit_ampel = false, z. B. Band, allg. Helfer) tragen keine
   // Ampel – bei "unbestimmter Anzahl" gibt es kein Über-/Unterbesetzt.
   if (b && b.mit_ampel === false) return null;
-  const s = (zeile && zeile.status) || "rot";
+  const s = statusVon(zeile);
   return e("span", {
     class: `punkt ${s}`,
     text: "●",
@@ -700,7 +714,7 @@ async function adminAmpel() {
   const istRot = (t) => !istInfoTermin(t) && bereiche.some((b) => {
     if (b.mit_ampel === false) return false;   // optionale Pools nie als Mangel werten
     const z = besetzungVon(t.id, b.id);
-    return z && z.status === "rot";
+    return z && statusVon(z) === "rot";
   });
 
   const rote = termine.filter(istRot);

@@ -3,7 +3,7 @@
 Lebendes Dokument. Wird von Claude Code am Session-Ende SELBSTSTÄNDIG
 aktualisiert (Regel 3 der globalen CLAUDE.md).
 
-_Zuletzt aktualisiert: 2026-07-27_
+_Zuletzt aktualisiert: 2026-07-28_
 
 ## Ziel & Kernnutzen
 Die Diensteinteilung der Gemeinde (Kinderdienst, Aufbau, Technik, …) läuft
