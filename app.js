@@ -422,7 +422,13 @@ async function tabEintragen() {
   ziel.className = "";
   leeren(ziel);
 
-  if (!meinePraeferenzen.length) {
+  // Angeboten werden: deine Präferenzen + Pools, die für alle offen sind
+  // (z. B. allgemeine Helfer – dafür braucht es keine Präferenz).
+  const meineBereiche = bereiche.filter(
+    (b) => b.offen_fuer_alle || meinePraeferenzen.some((p) => p.bereich_id === b.id)
+  );
+
+  if (!meineBereiche.length) {
     ziel.appendChild(
       e("div", { class: "karte" }, [
         e("p", { text: "Du hast noch nicht angegeben, welche Dienste für dich infrage kommen. Danach siehst du hier die offenen Plätze." }),
@@ -436,8 +442,6 @@ async function tabEintragen() {
     ziel.appendChild(e("p", { class: "leer", text: "Es sind noch keine Termine angelegt." }));
     return;
   }
-
-  const meineBereiche = bereiche.filter((b) => meinePraeferenzen.some((p) => p.bereich_id === b.id));
 
   // Sondertermine haben keine Dienste – hier nicht anzeigen.
   const eintragbar = termine.filter((t) => !istInfoTermin(t));
@@ -1095,6 +1099,8 @@ async function overlayOeffnen() {
   );
 
   for (const b of bereiche) {
+    // Für alle offene Pools (allg. Helfer) brauchen keine Präferenz – weglassen.
+    if (b.offen_fuer_alle) continue;
     const pref = meinePraeferenzen.find((p) => p.bereich_id === b.id);
 
     const detail = e("div", { class: "pref-detail" });

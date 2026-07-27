@@ -30,6 +30,11 @@ Format:
   3. Vier neue Bereiche (SQL): „Kinderdienst Stationen" (Min 2, mit Ampel),
      „Helfer Kinderdienst", „Band & Sänger", „Helfer Lobpreis" (je Min 0,
      ohne Ampel).
+  4. Zweite Bereichs-Flag `bereiche.offen_fuer_alle`: `true` → der Bereich wird
+     jedem in „Eintragen" angeboten, ohne Präferenz, und erscheint nicht in der
+     Präferenz-Liste. Gesetzt für „Helfer Kinderdienst" und „Helfer Lobpreis".
+     „Band & Sänger" bleibt `false` (nur Musiker mit Präferenz). `tabEintragen`
+     nimmt offene Pools in `meineBereiche` auf; `overlayOeffnen` überspringt sie.
 - **Warum:** Rückmeldungen aus dem Testlauf (Phase 5): Leiter/Mitarbeiter-Dialog
   unintuitiv; Bedarf an Stationsaufsicht, Band & Sängern und allgemeinen
   Helfern (Lobpreis, Kinderdienst) mit unbestimmter Anzahl.

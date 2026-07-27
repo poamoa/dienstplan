@@ -76,9 +76,10 @@ Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
 - Neue Bereiche: „Kinderdienst Stationen" (Stationsaufsicht, Min 2),
   „Band & Sänger", „Helfer Kinderdienst", „Helfer Lobpreis". Die drei letzten
   sind optionale Pools „unbestimmter Anzahl": neues Konzept `bereiche.mit_ampel`
-  = false → keine Ampel, nur wer dabei ist. App-Code deployt (rückwärts-
-  kompatibel, dormant bis die Bereiche existieren); **DB-Teil offen**: `sql/05`
-  muss noch in Supabase laufen.
+  = false → keine Ampel, nur wer dabei ist. Zweite Flag `offen_fuer_alle`: Helfer
+  (Kinderdienst, Lobpreis) sind ohne Präferenz für jeden eintragbar; Band & Sänger
+  bleibt präferenz-gesteuert. App-Code deployt (rückwärtskompatibel, dormant bis
+  die Bereiche existieren); **DB-Teil offen**: `sql/05` muss noch in Supabase laufen.
 
 ## Nächster konkreter Schritt
 1. **Joel:** `sql/05_bereiche_helfer.sql` im Supabase SQL-Editor ausführen
