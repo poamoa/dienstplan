@@ -82,16 +82,31 @@ Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
   die Bereiche existieren); **DB-Teil offen**: `sql/05` muss noch in Supabase laufen.
 
 ## Nächster konkreter Schritt
-1. **Joel:** `sql/05_bereiche_helfer.sql` im Supabase SQL-Editor ausführen
-   (Bereiche + Spalte `mit_ampel`). Namen/Kürzel vorher prüfen. Erst danach
-   erscheinen die neuen Bereiche/Pools in der (schon deployten) App.
-2. **Joel:** App im Browser prüfen: Eintragen-Sheet für einen Kinderdienst
-   (Leiter/Mitarbeiter-Buttons) ist ab jetzt live; nach dem SQL zusätzlich ein
-   optionaler Pool ohne Ampel, nur Namen.
-3. Parallel weiter offen: Vertretung mit Dominik klären; sobald zugesagt,
-   Zugänge einrichten (GitHub-Collaborator kann Claude, Supabase-Member Joel).
-   Danach Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
-   zusätzlich die Admin-Geste (5× auf den eigenen Namen tippen).
+
+**Stand 2026-07-28:** Alle App-Änderungen aus dem Testlauf sind gebaut, getestet
+und **live deployt** (GitHub Pages): (a) Leiter/Mitarbeiter-Sheet statt
+OK/Abbrechen, (b) optionale Pools ohne Ampel + Helfer offen für alle
+(`offen_fuer_alle`), (c) Ein-Personen-Dienste werden grün statt gelb
+(`statusVon()`). Rein Frontend-Sachen wirken sofort (Handy hart neu laden).
+
+**Der EINE offene technische Schritt: `sql/05_bereiche_helfer.sql` gegen die
+Live-DB ausführen.** Vorher Namen/Kürzel in der Datei prüfen (nachträglich nur
+per `update` änderbar). Zwei Wege:
+- **B (empfohlen, ohne Secret):** Supabase-Dashboard → SQL Editor → Inhalt von
+  `sql/05_bereiche_helfer.sql` einfügen → Run.
+- **A (Claude per psql):** Joel gibt die Session-Pooler-Connection-URI (mit
+  DB-Passwort) transient in der Session; Claude führt `psql … -f sql/05` aus.
+  `psql` liegt unter `/opt/homebrew/opt/libpq/bin/psql`. URI/Passwort NIE in eine
+  Datei schreiben. Lokal ist KEIN Zugang gespeichert (keine .env, kein ~/.pgpass,
+  keine supabase-CLI) – muss jedes Mal neu kommen.
+
+Danach: App im Browser prüfen – Helfer erscheinen bei jedem ohne Präferenz,
+Band & Sänger nur mit Präferenz, optionale Pools ohne Ampel.
+
+**Parallel weiter offen (unabhängig):** Vertretung mit Dominik klären; sobald
+zugesagt, Zugänge einrichten (GitHub-Collaborator kann Claude, Supabase-Member
+Joel). Danach Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
+zusätzlich die Admin-Geste (5× auf den eigenen Namen tippen).
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
