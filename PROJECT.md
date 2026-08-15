@@ -3,7 +3,7 @@
 Lebendes Dokument. Wird von Claude Code am Session-Ende SELBSTSTÄNDIG
 aktualisiert (Regel 3 der globalen CLAUDE.md).
 
-_Zuletzt aktualisiert: 2026-07-28_
+_Zuletzt aktualisiert: 2026-08-15_
 
 ## Ziel & Kernnutzen
 Die Diensteinteilung der Gemeinde (Kinderdienst, Aufbau, Technik, …) läuft
@@ -78,35 +78,32 @@ Umgebung: `psql` unter `/opt/homebrew/opt/libpq/bin/psql` (keg-only), `gh` hat
   sind optionale Pools „unbestimmter Anzahl": neues Konzept `bereiche.mit_ampel`
   = false → keine Ampel, nur wer dabei ist. Zweite Flag `offen_fuer_alle`: Helfer
   (Kinderdienst, Lobpreis) sind ohne Präferenz für jeden eintragbar; Band & Sänger
-  bleibt präferenz-gesteuert. App-Code deployt (rückwärtskompatibel, dormant bis
-  die Bereiche existieren); **DB-Teil offen**: `sql/05` muss noch in Supabase laufen.
+  bleibt präferenz-gesteuert. App-Code deployt; **DB-Teil am 2026-08-15
+  nachgezogen** (`sql/05` gelaufen, im Browser geprüft) – damit ist die
+  Testlauf-Nacharbeit vollständig erledigt.
 
 ## Nächster konkreter Schritt
 
-**Stand 2026-07-28:** Alle App-Änderungen aus dem Testlauf sind gebaut, getestet
-und **live deployt** (GitHub Pages): (a) Leiter/Mitarbeiter-Sheet statt
-OK/Abbrechen, (b) optionale Pools ohne Ampel + Helfer offen für alle
-(`offen_fuer_alle`), (c) Ein-Personen-Dienste werden grün statt gelb
-(`statusVon()`). Rein Frontend-Sachen wirken sofort (Handy hart neu laden).
+**Stand 2026-08-15: technisch ist nichts mehr offen.** Alle Testlauf-Änderungen
+sind live – App-Code seit 2026-07-28 auf GitHub Pages, der DB-Teil (`sql/05`)
+heute im Supabase-SQL-Editor nachgezogen und im Browser geprüft. Damit ist
+Phase 5 inhaltlich abgeschlossen.
 
-**Der EINE offene technische Schritt: `sql/05_bereiche_helfer.sql` gegen die
-Live-DB ausführen.** Vorher Namen/Kürzel in der Datei prüfen (nachträglich nur
-per `update` änderbar). Zwei Wege:
-- **B (empfohlen, ohne Secret):** Supabase-Dashboard → SQL Editor → Inhalt von
-  `sql/05_bereiche_helfer.sql` einfügen → Run.
-- **A (Claude per psql):** Joel gibt die Session-Pooler-Connection-URI (mit
-  DB-Passwort) transient in der Session; Claude führt `psql … -f sql/05` aus.
-  `psql` liegt unter `/opt/homebrew/opt/libpq/bin/psql`. URI/Passwort NIE in eine
-  Datei schreiben. Lokal ist KEIN Zugang gespeichert (keine .env, kein ~/.pgpass,
-  keine supabase-CLI) – muss jedes Mal neu kommen.
+**Nächster Schritt ist kein Code, sondern Gemeinde-Arbeit:**
+1. **Vertretung mit Dominik klären** (Zusage einholen). Sobald zugesagt:
+   GitHub-Collaborator auf BEIDEN Repos (macht Claude, braucht nur den
+   GitHub-Usernamen), Supabase-Member (macht Joel im Dashboard), Passwörter in
+   den gemeinsamen Passwortmanager. `README.md` unten eintragen.
+2. **Kill-Frage stellen**: Kommt ChurchTools o. Ä. in der Gemeinde? Ein
+   Gespräch, keine Stunde Code – aber vor dem Rollout beantworten.
+3. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
+   Handy-Kachel erklären. Bereichsleiter zusätzlich die Admin-Geste (5× auf den
+   eigenen Namen tippen). Rechne mit 2–3 h.
 
-Danach: App im Browser prüfen – Helfer erscheinen bei jedem ohne Präferenz,
-Band & Sänger nur mit Präferenz, optionale Pools ohne Ampel.
-
-**Parallel weiter offen (unabhängig):** Vertretung mit Dominik klären; sobald
-zugesagt, Zugänge einrichten (GitHub-Collaborator kann Claude, Supabase-Member
-Joel). Danach Rollout (Phase 6). Tester brauchen: URL + Passwort; die 2 Leiter
-zusätzlich die Admin-Geste (5× auf den eigenen Namen tippen).
+Für DB-Änderungen künftig: Weg B (Supabase-Dashboard → SQL Editor → Skript aus
+`sql/` einfügen → Run) hat gut funktioniert und braucht kein Secret. Lokal ist
+KEIN DB-Zugang gespeichert (keine .env, kein ~/.pgpass, keine supabase-CLI);
+für den psql-Weg müsste die Pooler-URI jedes Mal transient in die Session.
 
 ## Offene Entscheidungen
 - [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
@@ -123,6 +120,11 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-15 – `sql/05` in der Live-DB ausgeführt (Weg B, Joel im
+  Supabase-SQL-Editor): Spalten `mit_ampel`/`offen_fuer_alle` + 4 neue Bereiche
+  (Stationen, Helfer KiDi, Band & Sänger, Helfer Lobpreis). Browser-Test ok.
+  Damit ist die Testlauf-Nacharbeit komplett; offen ist nur noch
+  Nicht-Technisches (Vertretung, Kill-Frage, Rollout).
 - 2026-07-21 – 32 echte Personen angelegt (Bereichsleiter mit Präferenzen),
   Test-Personen gelöscht, Stand ins private Backup-Repo gesichert. Phase 5
   (Testlauf mit 3 Personen) gestartet.

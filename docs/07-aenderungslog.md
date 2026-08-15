@@ -13,6 +13,29 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-08-15 – `sql/05` in der Live-Datenbank ausgeführt
+
+- **Wer:** Joel (Supabase-Dashboard → SQL Editor), angeleitet von Claude
+- **Was:** `sql/05_bereiche_helfer.sql` gegen die Produktiv-DB gefahren. Neue
+  Spalten `bereiche.mit_ampel` und `bereiche.offen_fuer_alle`; vier neue
+  Bereiche: Kinderdienst Stationen (`Station`, Min 2, mit Ampel),
+  Helfer Kinderdienst (`H-KiDi`), Band & Sänger (`Band`),
+  Helfer Lobpreis (`H-Lob`).
+- **Warum:** Der App-Code dafür war seit 2026-07-28 live und lag dormant, weil
+  die Spalten/Bereiche in der DB fehlten. Damit ist die Nacharbeit aus dem
+  Testlauf komplett.
+- **Getestet:** Vorher/nachher per REST-API geprüft – die Abfrage auf
+  `mit_ampel` lief vorher auf „column does not exist", danach fehlerfrei.
+  Anonym (ohne Login) liefern `bereiche` und `personen` weiterhin `[]`, RLS
+  greift also auch auf den neuen Spalten. Joel hat die App im Browser
+  durchgeklickt: Helfer-Pools ohne Präferenz eintragbar, Band & Sänger nur mit
+  Präferenz, Pools ohne Ampel, Stationen mit Ampel.
+- **Deployt:** Kein Push nötig – App-Code war bereits draußen; geprüft, dass die
+  live ausgelieferte `app.js` mit der lokalen übereinstimmt.
+- **Folgen:** Neue Bereiche erben die RLS-Policies der Tabelle `bereiche`,
+  kein zusätzliches SQL nötig. Namen/Kürzel sind nur noch per `update`
+  änderbar (`on conflict (name) do nothing` fasst Bestehendes nicht an).
+
 ## 2026-07-28 – Ein-Personen-Dienste werden grün statt gelb
 
 - **Wer:** Joel, mit Claude
