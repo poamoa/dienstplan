@@ -61,5 +61,5 @@ siehe Passwortmanager (dieses Repo ist öffentlich).
 
 ## Kontakt / Verantwortung
 
-- Technische Pflege: _(Name eintragen)_
-- Vertretung: _(Name eintragen – bitte nicht leer lassen, siehe docs/05)_
+- Technische Pflege: Joel
+- Vertretung: Josua

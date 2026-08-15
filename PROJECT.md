@@ -51,10 +51,10 @@ Bereichsleitern, eine Woche, dann Rollout (Phase 6).
 Entschieden (2026-07-21):
 - **Admin-Modell bleibt weich** (Geste, kein echtes Gating). `ist_admin` ist nur
   noch kosmetisch. Kein Handlungsbedarf.
-- **Vertretung: Dominik** vorgesehen – Joel klärt Zusage mit ihm. Danach
-  einrichten: GitHub-Collaborator auf BEIDEN Repos (Claude kann das per
-  GitHub-Username), Supabase-Member (Joel im Dashboard), Passwörter in den
-  gemeinsamen Passwortmanager.
+- **Vertretung: Josua** (festgelegt am 2026-08-15; vorher war Dominik
+  angedacht). Einzurichten: GitHub-Collaborator auf BEIDEN Repos (Claude kann
+  das per GitHub-Username), Supabase-Member (Joel im Dashboard), Passwörter in
+  den gemeinsamen Passwortmanager.
 
 Offen:
 - **Kinderdienst-Leiter** dünn (v. a. KiDi-K nur 2). Wird von den Leuten selbst
@@ -90,13 +90,17 @@ heute im Supabase-SQL-Editor nachgezogen und im Browser geprüft. Damit ist
 Phase 5 inhaltlich abgeschlossen.
 
 **Nächster Schritt ist kein Code, sondern Gemeinde-Arbeit:**
-1. **Vertretung mit Dominik klären** (Zusage einholen). Sobald zugesagt:
-   GitHub-Collaborator auf BEIDEN Repos (macht Claude, braucht nur den
-   GitHub-Usernamen), Supabase-Member (macht Joel im Dashboard), Passwörter in
-   den gemeinsamen Passwortmanager. `README.md` unten eintragen.
-2. **Kill-Frage stellen**: Kommt ChurchTools o. Ä. in der Gemeinde? Ein
-   Gespräch, keine Stunde Code – aber vor dem Rollout beantworten.
-3. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
+1. **Josua die Zugänge geben** (er ist die Vertretung, steht seit 2026-08-15
+   fest und ist in `README.md` eingetragen). Drei Dinge, sonst bleibt es ein
+   Ein-Personen-Risiko:
+   - GitHub-Collaborator auf BEIDEN Repos (`poamoa/dienstplan` und dem privaten
+     `poamoa/dienstplan-backups`) – **macht Claude**, braucht nur Josuas
+     GitHub-Username.
+   - Supabase-Member im Projekt `kztbppgwgptyeqnxnoab` – **macht Joel** im
+     Dashboard (Organization → Team → Invite).
+   - Team-Passwort der App + Supabase-Zugang in den gemeinsamen
+     Passwortmanager.
+2. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
    Handy-Kachel erklären. Bereichsleiter zusätzlich die Admin-Geste (5× auf den
    eigenen Namen tippen). Rechne mit 2–3 h.
 
@@ -106,9 +110,12 @@ KEIN DB-Zugang gespeichert (keine .env, kein ~/.pgpass, keine supabase-CLI);
 für den psql-Weg müsste die Pooler-URI jedes Mal transient in die Session.
 
 ## Offene Entscheidungen
-- [ ] Kill-Frage: ChurchTools o. Ä. in Planung? (Gespräch in der Gemeinde)
-- [ ] Wer ist die **Vertretung** für GitHub- und Supabase-Zugang? (`README.md`
-      unten, aktuell leer – ohne das ist es ein Ein-Personen-Risiko)
+- [x] **Kill-Frage beantwortet (2026-08-15): ChurchTools o. Ä. kommt NICHT.**
+      Das Projekt ist damit dauerhaft freigegeben – die Gemeinde bekommt keine
+      Fremdlösung, die es ersetzen würde.
+- [x] **Vertretung für GitHub- und Supabase-Zugang: Josua** (2026-08-15, in
+      `README.md` eingetragen). Zugänge sind noch NICHT eingerichtet – siehe
+      „Nächster konkreter Schritt".
 
 ## Letzte 20 % (Fertigstellung)
 Eigener Posten, nicht wegoptimieren – hier bricht es bei Joel typischerweise ab:
@@ -120,6 +127,10 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-15 – Zwei offene Entscheidungen geschlossen: **ChurchTools o. Ä. kommt
+  NICHT** (Kill-Frage endgültig beantwortet, Projekt dauerhaft freigegeben) und
+  **Josua ist die Vertretung** (statt Dominik), in `README.md` eingetragen.
+  Zugänge für ihn noch einzurichten.
 - 2026-08-15 – `sql/05` in der Live-DB ausgeführt (Weg B, Joel im
   Supabase-SQL-Editor): Spalten `mit_ampel`/`offen_fuer_alle` + 4 neue Bereiche
   (Stationen, Helfer KiDi, Band & Sänger, Helfer Lobpreis). Browser-Test ok.
