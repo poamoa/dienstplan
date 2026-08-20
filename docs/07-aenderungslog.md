@@ -13,7 +13,7 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
-## 2026-08-20 – Vertretung: Zugang zum öffentlichen Repo eingerichtet
+## 2026-08-20 – Vertretung: GitHub-Zugang eingerichtet (beide Repos)
 
 - **Wer:** Claude Code, auf Anweisung von Joel
 - **Was:** Josua (Vertretung laut `README.md`) als Collaborator mit
@@ -21,14 +21,15 @@ Format:
   bis er sie auf GitHub annimmt. Kein Code, keine DB-Änderung.
 - **Warum:** Bisher hatte nur Joel Zugriff – Ein-Personen-Risiko. Erster von
   drei Zugängen aus dem Punkt „Josua die Zugänge geben" in `PROJECT.md`.
-- **Bewusst NICHT gemacht:** Einladung ins private `poamoa/dienstplan-backups`.
-  Das genannte GitHub-Konto ist ein leeres Profil (kein Klarname, keine Repos)
-  und damit nicht als Josuas verifizierbar; im Backup-Repo liegt der volle
-  DB-Dump mit den Daten von 32 realen Personen. Eine Fehleinladung wäre zwar
-  zurückziehbar, ein Datenabfluss nicht.
-- **Folgen:** Vor der zweiten Einladung den Username direkt bei Josua
-  bestätigen lassen. Offen bleiben außerdem Supabase-Member (macht Joel im
-  Dashboard) und die Passwörter im gemeinsamen Passwortmanager.
+- **Nachgezogen am selben Tag:** Joel hat den Account bestätigt, außerdem war
+  die erste Einladung da bereits angenommen. Daraufhin auch Einladung ins
+  private `poamoa/dienstplan-backups` (Schreibrechte). Dort liegt der volle
+  DB-Dump mit den Daten von 32 realen Personen – deshalb war die Bestätigung
+  vorher nötig: eine Fehleinladung wäre zurückziehbar, ein Datenabfluss nicht.
+- **Folgen:** GitHub-seitig ist die Vertretung damit vollständig. Offen bleiben
+  Supabase-Member (macht Joel im Dashboard; Josua braucht dafür ein eigenes,
+  kostenloses Supabase-Konto) und die Passwörter im gemeinsamen
+  Passwortmanager.
 
 ## 2026-08-15 – `sql/05` in der Live-Datenbank ausgeführt
 
