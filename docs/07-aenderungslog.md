@@ -13,6 +13,27 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-08-21 – Passwortmanager gestrichen, Vertretung braucht drei Zugänge
+
+- **Wer:** Claude Code, auf Einwand von Joel
+- **Was:** Der geplante gemeinsame Passwortmanager entfällt ersatzlos.
+  Bereinigt: `docs/09` (Teil A jetzt „Die drei Zugänge", Prüfliste um den
+  Passwort-Punkt gekürzt, Begründung in Teil B), `docs/05` (Abschnitt
+  „Der wichtigste Punkt: Vertretung"), `docs/03` (Ersteinrichtung und
+  Erledigt-Haken), `PROJECT.md`.
+- **Warum:** Wer das Team-Passwort kennt – die Vertretung kennt es als normale
+  Nutzerin der App – und Zugang zu GitHub und Supabase hat, kann jedes weitere
+  Geheimnis selbst beschaffen: der secret key ist im Dashboard abrufbar, DB- und
+  Team-Passwort sind dort zurücksetzbar. Das DB-Passwort wird nie im Klartext
+  gebraucht, sondern nur, um `SUPABASE_DB_URL` zu bauen – und dafür genügt ein
+  Reset. Ein Manager hätte nichts gesichert, was nicht ohnehin beschaffbar ist,
+  aber eine zweite Stelle geschaffen, an der veraltete Kopien liegen.
+- **Folgen:** Es ist damit ein **Verfahrens-, kein Speicherproblem.** Der Wert
+  liegt jetzt vollständig in `docs/09` – wenn dort die Abläufe (besonders
+  „DB-Passwort zurücksetzen → `SUPABASE_DB_URL` nachziehen → Backup prüfen")
+  falsch oder veraltet sind, gibt es kein Netz darunter. Diese Datei bei jeder
+  Änderung an Zugängen oder Betriebswegen mitziehen.
+
 ## 2026-08-20 – `docs/09` angelegt: Zugänge und Übergabe
 
 - **Wer:** Claude Code, auf Anweisung von Joel

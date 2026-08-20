@@ -88,11 +88,17 @@ Wenn du unsicher bist: nichts überschreiben, sondern die Backup-Datei und die F
 
 Trage in der `README.md` **zwei Namen** ein. Ein Projekt, das nur eine Person versteht, ist ein Projekt mit Ablaufdatum.
 
-Die Vertretung braucht:
+Die Vertretung braucht **drei** Dinge:
 - Zugriff aufs GitHub-Repo (als Collaborator) – **und aufs private Backup-Repo**
 - Zugriff aufs Supabase-Projekt (Organization → Members)
-- Das Datenbank-Passwort im gemeinsamen Passwortmanager
 - Diese Doku – die reicht, um alles neu aufzusetzen
+
+Einen gemeinsamen Passwortmanager braucht sie **nicht** (entschieden 2026-08-21).
+Wer GitHub- und Supabase-Zugang hat, kann jedes Geheimnis selbst neu erzeugen:
+der secret key ist im Dashboard abrufbar, DB- und Team-Passwort sind dort
+zurücksetzbar. Es ist damit kein Speicher-, sondern ein Verfahrensproblem – die
+Abläufe stehen in `docs/09-zugaenge-und-uebergabe.md`. Das Team-Passwort der App
+kennt die Vertretung ohnehin, es ist bei rund 32 Leuten im Umlauf.
 
 ## Was tun, wenn ihr das Projekt beerdigen wollt
 

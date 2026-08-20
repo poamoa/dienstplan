@@ -7,7 +7,7 @@ Zeitbedarf: ca. 20 Minuten. Keine Kreditkarte nötig.
 1. Auf [supabase.com](https://supabase.com) mit dem GitHub-Konto anmelden.
 2. **New Project**:
    - Name: `dienstplan-gemeinde`
-   - Datenbank-Passwort: erzeugen lassen und **in den Passwortmanager legen**. Du brauchst es fürs Backup. Es ist nicht dasselbe wie das Team-Passwort.
+   - Datenbank-Passwort: erzeugen lassen und sicher notieren. Du brauchst es fürs Backup (Secret `SUPABASE_DB_URL`). Es ist nicht dasselbe wie das Team-Passwort. Kein Passwortmanager nötig – es lässt sich im Dashboard jederzeit zurücksetzen, danach aber das Secret nachziehen (siehe `docs/09`).
    - Region: **Frankfurt (eu-central-1)** – nächstgelegen und Daten bleiben in der EU.
 3. Zwei bis drei Minuten warten.
 
@@ -60,11 +60,11 @@ Bei allen fünf Tabellen muss `rowsecurity` auf `true` stehen. Wenn irgendwo `fa
 ## 6. Erledigt-Haken
 
 - [ ] Projekt in Frankfurt angelegt
-- [ ] Datenbank-Passwort im Passwortmanager
+- [ ] Datenbank-Passwort notiert (oder bewusst nicht – im Dashboard rücksetzbar)
 - [ ] Alle drei SQL-Skripte gelaufen
 - [ ] RLS-Prüfung zeigt überall `true`
 - [ ] Team-Konto angelegt, Confirm-Email aus, Passwort notiert
 - [ ] Project URL + anon key notiert
-- [ ] `service_role` key **nirgends** gespeichert außer im Passwortmanager
+- [ ] `service_role` key **nirgends** in Dateien oder Commits (im Dashboard jederzeit abrufbar – keine Zweitkopie anlegen)
 
 Weiter mit `04-einrichtung-github.md`.

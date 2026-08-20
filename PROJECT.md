@@ -56,7 +56,8 @@ Entschieden (2026-07-21):
   Schreibrechten auf `poamoa/dienstplan` (Einladung angenommen) und auf dem
   privaten `poamoa/dienstplan-backups` (Einladung raus, Annahme offen). Der
   Account wurde vorher von Joel bestätigt. **Supabase-Einladung ebenfalls raus**
-  (Joel im Dashboard). Offen ist damit nur noch der gemeinsame Passwortmanager.
+  (Joel im Dashboard). Ein Passwortmanager entfällt (2026-08-21). Damit ist das
+  Ein-Personen-Risiko geschlossen; offen ist nur noch der Rollout.
 
 Offen:
 - **Kinderdienst-Leiter** dünn (v. a. KiDi-K nur 2). Wird von den Leuten selbst
@@ -92,9 +93,8 @@ heute im Supabase-SQL-Editor nachgezogen und im Browser geprüft. Damit ist
 Phase 5 inhaltlich abgeschlossen.
 
 **Nächster Schritt ist kein Code, sondern Gemeinde-Arbeit:**
-1. **Josua die Zugänge geben** (er ist die Vertretung, steht seit 2026-08-15
-   fest und ist in `README.md` eingetragen). Drei Dinge, sonst bleibt es ein
-   Ein-Personen-Risiko:
+1. ~~**Josua die Zugänge geben**~~ – **erledigt 2026-08-20/21.** Er ist die
+   Vertretung, steht seit 2026-08-15 fest und ist in `README.md` eingetragen:
    - ~~GitHub-Collaborator auf beiden Repos~~ – **erledigt 2026-08-20.**
      Öffentliches Repo angenommen, Einladung fürs private Backup-Repo raus.
    - ~~Supabase-Member im Projekt `kztbppgwgptyeqnxnoab`~~ – **erledigt
@@ -104,26 +104,17 @@ Phase 5 inhaltlich abgeschlossen.
      Vertretung die Wartung im Gespräch mit Claude Code erledigt (Skills,
      Prompt-Regeln, fertige Beispiel-Prompts, Fallen). Ersetzt den zuvor
      angedachten separaten Notfallzettel.
-   - **Offen: gemeinsamer Passwortmanager – Umfang am 2026-08-20 stark
-     zusammengestrichen.** Einsicht (Joel): Nichts hier ist unwiederbringlich.
-     Wer Supabase- und GitHub-Zugang hat, kann jedes Geheimnis neu erzeugen.
-     Der Manager spart also nur Reset-Aufwand, er verhindert keinen Verlust.
-     Deshalb:
-     - **Rein: Team-Passwort der App.** Einziger Fall mit echtem Schaden – ein
-       Reset sperrt ~32 Leute aus, bis das neue Passwort verteilt ist.
-     - **Rein (Komfort): Supabase-DB-Passwort.** Reset ist ein Klick, zieht aber
-       das Nachführen von `SUPABASE_DB_URL` nach sich; wird das vergessen,
-       scheitert das nächtliche Backup still.
-     - **NICHT rein: `service_role`/secret key** – im Dashboard jederzeit
-       abrufbar. Eine Zweitkopie erhöht nur die Angriffsfläche und veraltet beim
-       Rotieren.
-     - **NICHT rein: `BACKUP_DEPLOY_KEY`** – nicht auslesbar, aber neu
-       erzeugbar. Nur der Weg dorthin gehört notiert.
-     - Dazu eine Orientierungsnotiz: Projekt-Ref, beide Repos, welches Secret wo
-       liegt, wie DB-Passwort und Deploy-Key neu erzeugt werden.
-     Für zwei Einträge reicht auch eine geteilte Apple-Passwords-Gruppe; eine
-     Bitwarden-Free-Organisation (2 Benutzer) bleibt die plattformunabhängige
-     Variante. Die Tool-Wahl ist hier weniger wert als der Notfallzettel im Repo.
+   - **Kein gemeinsamer Passwortmanager nötig – entschieden 2026-08-21.**
+     Einwand von Joel, und er trägt: Wer Team-Passwort (kennt er als Nutzer),
+     GitHub- und Supabase-Zugang hat, braucht nichts Gespeichertes. Der secret
+     key ist im Dashboard abrufbar, DB- und Team-Passwort dort rücksetzbar. Das
+     DB-Passwort braucht die Vertretung nie im Klartext – nur um
+     `SUPABASE_DB_URL` zu bauen, und dafür setzt sie zurück. Damit ist es ein
+     Verfahrens-, kein Speicherproblem; die Abläufe stehen in `docs/09`.
+     `docs/03` und `docs/05` entsprechend bereinigt.
+
+**Damit ist Punkt 1 (Zugänge für die Vertretung) vollständig erledigt.**
+
 2. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
    Handy-Kachel erklären. Bereichsleiter zusätzlich die Admin-Geste (5× auf den
    eigenen Namen tippen). Rechne mit 2–3 h.
@@ -143,9 +134,10 @@ für den psql-Weg müsste die Pooler-URI jedes Mal transient in die Session.
       Passwortmanager nein) – siehe „Nächster konkreter Schritt".
 - [x] **GitHub-Account der Vertretung bestätigt** (2026-08-20, von Joel; das
       Profil selbst gibt nichts her). Beide Einladungen sind raus.
-- [ ] **Welcher Passwortmanager?** Nach der Kürzung vom 2026-08-20 nur noch
-      zwei Einträge – Bitwarden Free-Organisation oder geteilte
-      Apple-Passwords-Gruppe, je nachdem ob Josua Apple nutzt.
+- [x] **Passwortmanager: entfällt** (2026-08-21). Erst auf zwei Einträge
+      gekürzt, dann ganz gestrichen – mit GitHub- und Supabase-Zugang ist jedes
+      Geheimnis selbst erzeugbar. Falls das je wieder aufkommt: Die Frage ist
+      nicht „wo speichern wir es", sondern „kennt die Vertretung den Ablauf".
 - [ ] **Darf Josuas Supabase-Rolle die secret keys einsehen?** Der Plan „holt er
       sich bei Bedarf selbst aus dem Dashboard" hängt daran. Bei Owner/
       Administrator sicher; bei reinem Developer ungeprüft – einmal gemeinsam
@@ -165,6 +157,11 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-21 – Passwortmanager komplett gestrichen (Einwand von Joel): Mit
+  Team-Passwort, GitHub- und Supabase-Zugang gibt es nichts zu speichern, was
+  nicht ohnehin beschaffbar wäre. `docs/03`, `docs/05` und `docs/09` bereinigt –
+  die Vertretung braucht jetzt **drei** Zugänge, nicht vier. Damit sind die
+  Zugänge vollständig; einziger offener Punkt im Projekt ist der Rollout.
 - 2026-08-20 – `docs/09-zugaenge-und-uebergabe.md` angelegt und in `README.md`
   verlinkt. Hintergrund: Josua bekommt das komplette Claude-Code-Projekt und
   soll die Wartung über Prompts machen. Das Dokument hält fest, welche Zugänge

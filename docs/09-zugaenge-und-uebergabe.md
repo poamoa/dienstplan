@@ -9,41 +9,48 @@ In dieser Datei stehen **keine Passwörter und keine Schlüssel** – dieses Rep
 
 ---
 
-## Teil A – Die vier Zugänge
+## Teil A – Die drei Zugänge
 
 | # | Zugang | Wofür | Wer richtet ein |
 |---|---|---|---|
 | 1 | **GitHub-Konto**, Collaborator auf `poamoa/dienstplan` | App-Dateien, Workflows, Secrets | Joel |
 | 2 | dasselbe Konto auf `poamoa/dienstplan-backups` (privat) | nächtliche Datenbank-Dumps | Joel |
 | 3 | **Supabase-Konto**, Mitglied der Organisation mit Projekt `kztbppgwgptyeqnxnoab` | Datenbank, SQL-Editor, API-Keys, Team-Konto | Joel |
-| 4 | **Gemeinsamer Passwortmanager** | Team-Passwort der App, DB-Passwort | Joel |
 
 Für das Supabase-Konto reicht die kostenlose Anmeldung – am einfachsten per
 GitHub-Login, dann ist es dasselbe Konto wie oben und ohne zusätzliches Passwort.
 
-**Prüfliste – habe ich wirklich alles?** Alle vier müssen mit *Ja* beantwortbar
+**Es gibt bewusst keinen gemeinsamen Passwortmanager** (entschieden 2026-08-21).
+Wer diese drei Zugänge hat, braucht keinen: Der secret key ist im Dashboard
+abrufbar, DB- und Team-Passwort sind dort zurücksetzbar. Nichts davon muss
+irgendwo doppelt liegen – man muss nur die Abläufe kennen, und die stehen in
+Teil B. Das Team-Passwort der App kennst du ohnehin als Nutzer; es ist bei rund
+32 Leuten im Umlauf und kein echtes Geheimnis.
+
+**Prüfliste – habe ich wirklich alles?** Alle drei müssen mit *Ja* beantwortbar
 sein, sonst ist die Vertretung nur auf dem Papier vorhanden:
 
 - [ ] Ich kann `poamoa/dienstplan` auf GitHub öffnen **und** einen Commit pushen.
 - [ ] Ich kann `poamoa/dienstplan-backups` öffnen und sehe dort Dump-Dateien.
 - [ ] Ich kann das Supabase-Projekt öffnen und im **SQL Editor** ein
       `select count(*) from personen;` ausführen.
-- [ ] Ich komme an das Team-Passwort der App, ohne jemanden zu fragen.
 
 ---
 
 ## Teil B – Wo liegt was, und was ist wiederherstellbar
 
 Grundregel, die viel Panik erspart: **Nichts davon ist unwiederbringlich.** Wer
-Zugang 1–3 hat, kann jedes Geheimnis neu erzeugen. Der Passwortmanager spart nur
-den Reset-Aufwand.
+Zugang 1–3 hat, kann jedes Geheimnis selbst neu erzeugen. Genau deshalb gibt es
+keinen Passwortmanager – es gäbe nichts zu speichern, was nicht ohnehin
+beschaffbar wäre. Was du stattdessen brauchst, ist die richtige Reihenfolge; die
+steht in dieser Tabelle und der Warnung darunter.
 
 | Sache | Wo | Auslesbar? | Wenn weg |
 |---|---|---|---|
 | Projekt-Ref, URL, publishable key | `config.js` im Repo | ja, öffentlich | steht im Repo |
 | `service_role` / secret key | Supabase → Project Settings → API Keys | **ja, jederzeit** | dort neu erzeugen |
 | Datenbank-Passwort | Supabase → Project Settings → Database | nein, nur zurücksetzen | siehe Warnung unten |
-| Team-Passwort der App | Supabase → Authentication → Users → `team@gemeinde.de` | nein, nur neu setzen | neu setzen **und an alle ~32 Leute verteilen** |
+| Team-Passwort der App | Supabase → Authentication → Users → `team@gemeinde.de` | nein, nur neu setzen | kennst du als Nutzer; sonst neu setzen **und an alle ~32 Leute verteilen** |
 | `BACKUP_DEPLOY_KEY` | GitHub-Secret in `poamoa/dienstplan` | nein (write-only) | neues SSH-Schlüsselpaar, siehe `docs/05` |
 | `SUPABASE_DB_URL` | GitHub-Secret in `poamoa/dienstplan` | nein (write-only) | aus Pooler-URI + DB-Passwort neu bauen |
 
