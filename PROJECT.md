@@ -99,14 +99,26 @@ Phase 5 inhaltlich abgeschlossen.
      Öffentliches Repo angenommen, Einladung fürs private Backup-Repo raus.
    - ~~Supabase-Member im Projekt `kztbppgwgptyeqnxnoab`~~ – **erledigt
      2026-08-20**, Einladung von Joel verschickt.
-   - **Offen: gemeinsamer Passwortmanager.** Empfehlung (2026-08-20):
-     Bitwarden, kostenlose Organisation für 2 Benutzer, plattformunabhängig;
-     Apple Passwords (geteilte Gruppe) nur, falls Josua auch Apple nutzt.
-     Hinein gehören: Supabase-DB-Passwort und `service_role` key (beide hoch
-     sensibel, ggf. im Dashboard neu erzeugen – laut Doku wurden sie nie
-     gespeichert), das Team-Passwort der App (nach dem Rollout ohnehin bei ~32
-     Leuten bekannt, nur zum Nachschlagen) sowie eine Orientierungsnotiz
-     (Projekt-Ref, beide Repos, wo `BACKUP_DEPLOY_KEY` liegt).
+   - **Offen: gemeinsamer Passwortmanager – Umfang am 2026-08-20 stark
+     zusammengestrichen.** Einsicht (Joel): Nichts hier ist unwiederbringlich.
+     Wer Supabase- und GitHub-Zugang hat, kann jedes Geheimnis neu erzeugen.
+     Der Manager spart also nur Reset-Aufwand, er verhindert keinen Verlust.
+     Deshalb:
+     - **Rein: Team-Passwort der App.** Einziger Fall mit echtem Schaden – ein
+       Reset sperrt ~32 Leute aus, bis das neue Passwort verteilt ist.
+     - **Rein (Komfort): Supabase-DB-Passwort.** Reset ist ein Klick, zieht aber
+       das Nachführen von `SUPABASE_DB_URL` nach sich; wird das vergessen,
+       scheitert das nächtliche Backup still.
+     - **NICHT rein: `service_role`/secret key** – im Dashboard jederzeit
+       abrufbar. Eine Zweitkopie erhöht nur die Angriffsfläche und veraltet beim
+       Rotieren.
+     - **NICHT rein: `BACKUP_DEPLOY_KEY`** – nicht auslesbar, aber neu
+       erzeugbar. Nur der Weg dorthin gehört notiert.
+     - Dazu eine Orientierungsnotiz: Projekt-Ref, beide Repos, welches Secret wo
+       liegt, wie DB-Passwort und Deploy-Key neu erzeugt werden.
+     Für zwei Einträge reicht auch eine geteilte Apple-Passwords-Gruppe; eine
+     Bitwarden-Free-Organisation (2 Benutzer) bleibt die plattformunabhängige
+     Variante. Die Tool-Wahl ist hier weniger wert als der Notfallzettel im Repo.
 2. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
    Handy-Kachel erklären. Bereichsleiter zusätzlich die Admin-Geste (5× auf den
    eigenen Namen tippen). Rechne mit 2–3 h.
@@ -126,8 +138,13 @@ für den psql-Weg müsste die Pooler-URI jedes Mal transient in die Session.
       Passwortmanager nein) – siehe „Nächster konkreter Schritt".
 - [x] **GitHub-Account der Vertretung bestätigt** (2026-08-20, von Joel; das
       Profil selbst gibt nichts her). Beide Einladungen sind raus.
-- [ ] **Welcher Passwortmanager?** Empfehlung Bitwarden (Free-Organisation,
-      2 Benutzer). Bisher war im ganzen Projekt nie ein konkretes Tool genannt.
+- [ ] **Welcher Passwortmanager?** Nach der Kürzung vom 2026-08-20 nur noch
+      zwei Einträge – Bitwarden Free-Organisation oder geteilte
+      Apple-Passwords-Gruppe, je nachdem ob Josua Apple nutzt.
+- [ ] **Darf Josuas Supabase-Rolle die secret keys einsehen?** Der Plan „holt er
+      sich bei Bedarf selbst aus dem Dashboard" hängt daran. Bei Owner/
+      Administrator sicher; bei reinem Developer ungeprüft – einmal gemeinsam
+      nachsehen.
 - [ ] **Welche Supabase-Rolle bekommt Josua?** Owner (kann alles, auch das
       Projekt löschen – dafür echter Bus-Faktor-Schutz) oder Administrator/
       Developer (Alltagsbetrieb ja, Org-Verwaltung nein). Er braucht dafür ein
@@ -143,6 +160,11 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-20 – Umfang des Passwortmanagers zusammengestrichen (Einwand von
+  Joel): Der `service_role` key wird NICHT doppelt abgelegt, er ist im Dashboard
+  abrufbar. Allgemeiner: nichts im System ist unwiederbringlich, solange jemand
+  Supabase + GitHub hat – der Manager spart Reset-Aufwand, mehr nicht. Es
+  bleiben Team-Passwort (Reset sperrt 32 Leute aus) und DB-Passwort (Komfort).
 - 2026-08-20 – Supabase-Einladung für die Vertretung verschickt (Joel im
   Dashboard). Von den drei Zugängen fehlt damit nur noch der gemeinsame
   Passwortmanager; Empfehlung Bitwarden Free-Organisation steht im „Nächsten
