@@ -3,7 +3,7 @@
 Lebendes Dokument. Wird von Claude Code am Session-Ende SELBSTSTÄNDIG
 aktualisiert (Regel 3 der globalen CLAUDE.md).
 
-_Zuletzt aktualisiert: 2026-08-15_
+_Zuletzt aktualisiert: 2026-08-20_
 
 ## Ziel & Kernnutzen
 Die Diensteinteilung der Gemeinde (Kinderdienst, Aufbau, Technik, …) läuft
@@ -52,9 +52,13 @@ Entschieden (2026-07-21):
 - **Admin-Modell bleibt weich** (Geste, kein echtes Gating). `ist_admin` ist nur
   noch kosmetisch. Kein Handlungsbedarf.
 - **Vertretung: Josua** (festgelegt am 2026-08-15; vorher war Dominik
-  angedacht). Einzurichten: GitHub-Collaborator auf BEIDEN Repos (Claude kann
-  das per GitHub-Username), Supabase-Member (Joel im Dashboard), Passwörter in
-  den gemeinsamen Passwortmanager.
+  angedacht). Stand 2026-08-20: GitHub-Einladung auf das **öffentliche** Repo
+  `poamoa/dienstplan` ist raus (Schreibrechte, von Josua noch anzunehmen). Das
+  private `dienstplan-backups` bewusst NOCH NICHT – das Konto ist ein leeres
+  Profil ohne erkennbaren Bezug zu Josua, und dort liegen die Personendaten der
+  32 Leute. Erst einladen, wenn Josua den Username bestätigt hat. Offen bleiben
+  Supabase-Member (Joel im Dashboard) und die Passwörter im gemeinsamen
+  Passwortmanager.
 
 Offen:
 - **Kinderdienst-Leiter** dünn (v. a. KiDi-K nur 2). Wird von den Leuten selbst
@@ -93,9 +97,11 @@ Phase 5 inhaltlich abgeschlossen.
 1. **Josua die Zugänge geben** (er ist die Vertretung, steht seit 2026-08-15
    fest und ist in `README.md` eingetragen). Drei Dinge, sonst bleibt es ein
    Ein-Personen-Risiko:
-   - GitHub-Collaborator auf BEIDEN Repos (`poamoa/dienstplan` und dem privaten
-     `poamoa/dienstplan-backups`) – **macht Claude**, braucht nur Josuas
-     GitHub-Username.
+   - GitHub-Collaborator: öffentliches Repo `poamoa/dienstplan` **erledigt
+     2026-08-20** (Einladung raus, Josua muss sie annehmen). Privates
+     `poamoa/dienstplan-backups` **offen** – erst nachziehen, wenn Josua seinen
+     GitHub-Username bestätigt hat (Konto ist ein leeres Profil, Verwechslung
+     würde die Personendaten offenlegen). Dann **macht Claude** den Rest.
    - Supabase-Member im Projekt `kztbppgwgptyeqnxnoab` – **macht Joel** im
      Dashboard (Organization → Team → Invite).
    - Team-Passwort der App + Supabase-Zugang in den gemeinsamen
@@ -114,8 +120,12 @@ für den psql-Weg müsste die Pooler-URI jedes Mal transient in die Session.
       Das Projekt ist damit dauerhaft freigegeben – die Gemeinde bekommt keine
       Fremdlösung, die es ersetzen würde.
 - [x] **Vertretung für GitHub- und Supabase-Zugang: Josua** (2026-08-15, in
-      `README.md` eingetragen). Zugänge sind noch NICHT eingerichtet – siehe
-      „Nächster konkreter Schritt".
+      `README.md` eingetragen). Zugänge teilweise eingerichtet (Stand
+      2026-08-20: öffentliches Repo ja, privates Backup-Repo + Supabase +
+      Passwortmanager nein) – siehe „Nächster konkreter Schritt".
+- [ ] **Ist der genannte GitHub-Account wirklich Josuas?** Profil ist leer (kein
+      Name, keine Repos), also nicht verifizierbar. Kurz bei Josua rückfragen;
+      davon hängt die Einladung ins private Backup-Repo ab.
 
 ## Letzte 20 % (Fertigstellung)
 Eigener Posten, nicht wegoptimieren – hier bricht es bei Joel typischerweise ab:
@@ -127,6 +137,12 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-20 – Josua als Collaborator (Schreibrechte) auf das **öffentliche**
+  Repo `poamoa/dienstplan` eingeladen; Einladung ist offen, bis er sie annimmt.
+  Das private `dienstplan-backups` bewusst ausgelassen: Der genannte Account ist
+  ein leeres Profil, das sich nicht als Josuas verifizieren lässt, und im
+  Backup-Repo liegen die Daten von 32 realen Personen. Nachziehen, sobald er den
+  Username bestätigt.
 - 2026-08-15 – Zwei offene Entscheidungen geschlossen: **ChurchTools o. Ä. kommt
   NICHT** (Kill-Frage endgültig beantwortet, Projekt dauerhaft freigegeben) und
   **Josua ist die Vertretung** (statt Dominik), in `README.md` eingetragen.
