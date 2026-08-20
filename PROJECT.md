@@ -55,8 +55,8 @@ Entschieden (2026-07-21):
   angedacht). Stand 2026-08-20: **GitHub erledigt** – Collaborator mit
   Schreibrechten auf `poamoa/dienstplan` (Einladung angenommen) und auf dem
   privaten `poamoa/dienstplan-backups` (Einladung raus, Annahme offen). Der
-  Account wurde vorher von Joel bestätigt. Offen bleiben Supabase-Member (Joel
-  im Dashboard) und die Passwörter im gemeinsamen Passwortmanager.
+  Account wurde vorher von Joel bestätigt. **Supabase-Einladung ebenfalls raus**
+  (Joel im Dashboard). Offen ist damit nur noch der gemeinsame Passwortmanager.
 
 Offen:
 - **Kinderdienst-Leiter** dünn (v. a. KiDi-K nur 2). Wird von den Leuten selbst
@@ -97,10 +97,16 @@ Phase 5 inhaltlich abgeschlossen.
    Ein-Personen-Risiko:
    - ~~GitHub-Collaborator auf beiden Repos~~ – **erledigt 2026-08-20.**
      Öffentliches Repo angenommen, Einladung fürs private Backup-Repo raus.
-   - Supabase-Member im Projekt `kztbppgwgptyeqnxnoab` – **macht Joel** im
-     Dashboard (Organization → Team → Invite).
-   - Team-Passwort der App + Supabase-Zugang in den gemeinsamen
-     Passwortmanager.
+   - ~~Supabase-Member im Projekt `kztbppgwgptyeqnxnoab`~~ – **erledigt
+     2026-08-20**, Einladung von Joel verschickt.
+   - **Offen: gemeinsamer Passwortmanager.** Empfehlung (2026-08-20):
+     Bitwarden, kostenlose Organisation für 2 Benutzer, plattformunabhängig;
+     Apple Passwords (geteilte Gruppe) nur, falls Josua auch Apple nutzt.
+     Hinein gehören: Supabase-DB-Passwort und `service_role` key (beide hoch
+     sensibel, ggf. im Dashboard neu erzeugen – laut Doku wurden sie nie
+     gespeichert), das Team-Passwort der App (nach dem Rollout ohnehin bei ~32
+     Leuten bekannt, nur zum Nachschlagen) sowie eine Orientierungsnotiz
+     (Projekt-Ref, beide Repos, wo `BACKUP_DEPLOY_KEY` liegt).
 2. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
    Handy-Kachel erklären. Bereichsleiter zusätzlich die Admin-Geste (5× auf den
    eigenen Namen tippen). Rechne mit 2–3 h.
@@ -120,6 +126,8 @@ für den psql-Weg müsste die Pooler-URI jedes Mal transient in die Session.
       Passwortmanager nein) – siehe „Nächster konkreter Schritt".
 - [x] **GitHub-Account der Vertretung bestätigt** (2026-08-20, von Joel; das
       Profil selbst gibt nichts her). Beide Einladungen sind raus.
+- [ ] **Welcher Passwortmanager?** Empfehlung Bitwarden (Free-Organisation,
+      2 Benutzer). Bisher war im ganzen Projekt nie ein konkretes Tool genannt.
 - [ ] **Welche Supabase-Rolle bekommt Josua?** Owner (kann alles, auch das
       Projekt löschen – dafür echter Bus-Faktor-Schutz) oder Administrator/
       Developer (Alltagsbetrieb ja, Org-Verwaltung nein). Er braucht dafür ein
@@ -135,6 +143,10 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-20 – Supabase-Einladung für die Vertretung verschickt (Joel im
+  Dashboard). Von den drei Zugängen fehlt damit nur noch der gemeinsame
+  Passwortmanager; Empfehlung Bitwarden Free-Organisation steht im „Nächsten
+  konkreten Schritt".
 - 2026-08-20 – GitHub-Zugang der Vertretung fertig: Account von Joel bestätigt,
   Einladung fürs öffentliche Repo angenommen, Einladung fürs private
   `dienstplan-backups` raus. Damit ist von den drei Zugängen der erste erledigt;
