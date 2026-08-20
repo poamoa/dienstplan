@@ -23,6 +23,7 @@ Läuft als statische Seite auf GitHub Pages, Daten liegen in einer Supabase-Date
 | [docs/06-roadmap.md](docs/06-roadmap.md) | Phasen, Ideen für später |
 | [docs/08-app-spezifikation.md](docs/08-app-spezifikation.md) | Bauvorgabe für die App |
 | [docs/07-aenderungslog.md](docs/07-aenderungslog.md) | Wer hat wann was geändert |
+| [docs/09-zugaenge-und-uebergabe.md](docs/09-zugaenge-und-uebergabe.md) | **Übergabe:** welche Zugänge nötig sind und wie man das Projekt mit Claude Code wartet |
 
 ## Projektstruktur
 
@@ -63,3 +64,8 @@ siehe Passwortmanager (dieses Repo ist öffentlich).
 
 - Technische Pflege: Joel
 - Vertretung: Josua
+
+Wer übernimmt oder einspringt, fängt bei
+[docs/09-zugaenge-und-uebergabe.md](docs/09-zugaenge-und-uebergabe.md) an –
+dort stehen die nötigen Zugänge und wie die Wartung im Gespräch mit Claude Code
+abläuft.

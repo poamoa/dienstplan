@@ -13,6 +13,26 @@ Format:
 - Folgen: worauf man achten muss
 ```
 
+## 2026-08-20 – `docs/09` angelegt: Zugänge und Übergabe
+
+- **Wer:** Claude Code, auf Anweisung von Joel
+- **Was:** Neue Datei `docs/09-zugaenge-und-uebergabe.md`. Inhalt: die vier
+  nötigen Zugänge samt Prüfliste, eine Tabelle „wo liegt was / was ist
+  auslesbar / was tun wenn weg", Leitfaden fürs Arbeiten mit Claude Code
+  (Skills, Prompt-Regeln, Aufgabenteilung Mensch/Claude, Pflicht-Check vor dem
+  Push), fertige Beispiel-Prompts für typische Fälle, bekannte Fallen und die
+  Liste dessen, was nicht ohne Rücksprache passieren darf. In `README.md`
+  verlinkt (Doku-Tabelle und Abschnitt „Kontakt / Verantwortung").
+- **Warum:** Die Vertretung bekommt das komplette Claude-Code-Projekt und soll
+  Wartung über Prompts erledigen können, statt Code von Hand anzufassen. Dafür
+  musste aufgeschrieben werden, welche Zugänge das voraussetzt und wie man so
+  arbeitet. Ersetzt zugleich die Idee eines separaten „Notfallzettels".
+- **Bewusst enthalten sind KEINE Geheimnisse** – nur Fundorte und
+  Wiederherstellungswege. Das Repo ist öffentlich.
+- **Folgen:** Bei Änderungen an Skills, Zugängen oder am Betriebsweg muss
+  `docs/09` mitgezogen werden. Die dort dokumentierte Falle „DB-Passwort-Reset
+  bricht `SUPABASE_DB_URL` und damit das Backup" gilt unverändert.
+
 ## 2026-08-20 – Vertretung: GitHub-Zugang eingerichtet (beide Repos)
 
 - **Wer:** Claude Code, auf Anweisung von Joel

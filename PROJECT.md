@@ -99,6 +99,11 @@ Phase 5 inhaltlich abgeschlossen.
      Öffentliches Repo angenommen, Einladung fürs private Backup-Repo raus.
    - ~~Supabase-Member im Projekt `kztbppgwgptyeqnxnoab`~~ – **erledigt
      2026-08-20**, Einladung von Joel verschickt.
+   - **Übergabe-Doku `docs/09-zugaenge-und-uebergabe.md` – erledigt 2026-08-20.**
+     Zugänge, Fundorte, Wiederherstellungswege und ein Leitfaden, wie die
+     Vertretung die Wartung im Gespräch mit Claude Code erledigt (Skills,
+     Prompt-Regeln, fertige Beispiel-Prompts, Fallen). Ersetzt den zuvor
+     angedachten separaten Notfallzettel.
    - **Offen: gemeinsamer Passwortmanager – Umfang am 2026-08-20 stark
      zusammengestrichen.** Einsicht (Joel): Nichts hier ist unwiederbringlich.
      Wer Supabase- und GitHub-Zugang hat, kann jedes Geheimnis neu erzeugen.
@@ -160,6 +165,11 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-20 – `docs/09-zugaenge-und-uebergabe.md` angelegt und in `README.md`
+  verlinkt. Hintergrund: Josua bekommt das komplette Claude-Code-Projekt und
+  soll die Wartung über Prompts machen. Das Dokument hält fest, welche Zugänge
+  das braucht, was auslesbar ist und was nur neu erzeugbar, wie man mit Claude
+  Code in diesem Repo arbeitet und welche Fallen es gibt.
 - 2026-08-20 – Umfang des Passwortmanagers zusammengestrichen (Einwand von
   Joel): Der `service_role` key wird NICHT doppelt abgelegt, er ist im Dashboard
   abrufbar. Allgemeiner: nichts im System ist unwiederbringlich, solange jemand
