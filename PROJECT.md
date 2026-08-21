@@ -115,7 +115,14 @@ Phase 5 inhaltlich abgeschlossen.
 
 **Damit ist Punkt 1 (Zugänge für die Vertretung) vollständig erledigt.**
 
-2. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
+2. **Echte Termine beschaffen und gegenchecken** (Joel ist dran, Stand
+   2026-08-21). Der aktuelle Plan Sep 26–Jul 27 wurde generiert (1./3. Sonntag,
+   Pausen, 13 Sondertermine) – vor dem Rollout gegen die real geplanten Termine
+   der Gemeinde abgleichen und Abweichungen eintragen. Termine sind im
+   Admin-Reiter editierbar; für größere Korrekturen ein neues Skript in `sql/`.
+   **Muss vor dem Rollout fertig sein** – falsche Termine beim ersten Kontakt
+   kosten mehr Vertrauen, als sie an Zeit sparen.
+3. **Rollout (Phase 6)** an alle ~32 Personen: URL + Team-Passwort verteilen,
    Handy-Kachel erklären. Bereichsleiter zusätzlich die Admin-Geste (5× auf den
    eigenen Namen tippen). Rechne mit 2–3 h.
 
@@ -123,6 +130,23 @@ Für DB-Änderungen künftig: Weg B (Supabase-Dashboard → SQL Editor → Skrip
 `sql/` einfügen → Run) hat gut funktioniert und braucht kein Secret. Lokal ist
 KEIN DB-Zugang gespeichert (keine .env, kein ~/.pgpass, keine supabase-CLI);
 für den psql-Weg müsste die Pooler-URI jedes Mal transient in die Session.
+
+## Ideen, bewusst zurückgestellt
+- **Kalender-Reiter** (Monatsraster für die nächsten ~3 Monate), gefragt am
+  2026-08-21. Aufwand geschätzt: **3–4 h bauen + 2–3 h Fertigstellung.**
+  Technisch unkritisch – `planLaden()` müsste von „Anzahl" auf „Zeitraum"
+  umgestellt werden, `planKarte()` ist als Tag-Detail wiederverwendbar; Falle
+  ist die Datumsarithmetik ohne Bibliothek (ISO-Strings von Hand zerlegen,
+  `new Date("…")` ist UTC).
+  **Zurückgestellt, weil der Nutzen fraglich ist:** Bei 1./3. Sonntag sind das
+  ~2 belegte Tage pro Monat – ein 30-Zellen-Raster für zwei Datenpunkte, auf dem
+  Handy ein ganzer Bildschirm pro Monat, und die Ampel passt in eine Tageszelle
+  kaum. Die Listendarstellung ist für diese Datenform vermutlich besser.
+  **Billigere Alternative, falls der Wunsch wiederkommt:** Monatsüberschriften
+  und graue Pausen-Zwischenzeilen im bestehenden Plan-Reiter – 1–1,5 h + 0,5 h.
+  **Entscheidung: erst nach dem Rollout**, und nur wenn jemand von selbst
+  danach fragt. Vorher wäre es Raten auf Kosten des einzigen echten Risikos
+  (ob die 32 Leute die App überhaupt benutzen).
 
 ## Offene Entscheidungen
 - [x] **Kill-Frage beantwortet (2026-08-15): ChurchTools o. Ä. kommt NICHT.**
@@ -157,6 +181,10 @@ Faustregel: Bauen ist die Hälfte. Die andere Hälfte ist, 30 Ehrenamtliche dazu
 zu bringen, es zu benutzen.
 
 ## Log (neueste zuerst)
+- 2026-08-21 – Vor dem Rollout kam ein Punkt dazu: Die echten geplanten Termine
+  müssen beschafft und gegen den generierten Plan abgeglichen werden (Joel ist
+  dran). Außerdem Idee „Kalender-Reiter" bewertet (5–7 h) und bewusst hinter den
+  Rollout gestellt – siehe „Ideen, bewusst zurückgestellt".
 - 2026-08-21 – Passwortmanager komplett gestrichen (Einwand von Joel): Mit
   Team-Passwort, GitHub- und Supabase-Zugang gibt es nichts zu speichern, was
   nicht ohnehin beschaffbar wäre. `docs/03`, `docs/05` und `docs/09` bereinigt –
